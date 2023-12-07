@@ -72,60 +72,137 @@ Max = 64bit, 2^64
         "Fuad" == "fuad" // return false
     - .length: ngitung panjang string
         "Fuad Azaim".length // return 10 (space included)
+
+[13] Data Type: Boolean ________________________________________
+    - function: conditioning statement, menentukan aksi berbeda dan mengatur alur kendali program
+    - Syntax: Booelan(value)
+    - Truthy and Falsy Values: https://mdilahihossainshiblup.medium.com/1-truthy-and-falsy-values-5af7b6d31ef 
+        - Boolean(10 < 20); // true
+        - Boolean(10); // true
+        - Boolean("Fuad") // true
+        - Boolean(0) // false
+        - Boolean(-1) // true
+    - 
     
+[14] Data Type: Variable _______________________________________
+    - def: gelas, wadah penyimpanan nilai
+    - declaration, initiation, assignment
+        - var x; // declaration & initiation
+        - x = 20; // assignment
+    - variable declaration
+        - var
+        - let
+        - const
+    - syntax: var <variable name>
+        - var <keyword&reservedWord> // gaboleh pake keyword n reserved word
+        - var 1gaboleh; // gaboleh
+        - var boleh1;
+        - var ini_juga_boleh;
+        - var iniBolehBanget; // this is camelCase
+    - Shorthand
+        - var   x = 1, y = 2, z = 3;
+    - Variable Scope
+        - we'll get back soon asap after we're learning function and object
+
+        
+[15] Writing a JS _____________________________________________
+    - Embedding external JS on an HTML
+        - <script src="script.js"></script>
+        - <script src="nama_folder/script.js"></script> // inside
+        - <script src="../script.js"></script> // outside
+
+[16] PopUp Box in JS ___________________________________________
+    - Type
+        alert: alert('Wasssupppp Mamenn!');
+        prompt: var nama = prompt('Masukkan nama:');
+        confirm
+
+[17] Control Flow ______________________________________________
+    - Normal Flow
+        statement dieksekusi dari atas ke bawah, kiri ke kanan
+    - 
 
 
 
 [X]
+*/
 
 
-/*
+
 // Example [10, 11] Operator _________________________
 
-// Operator Aritmatika, Penugasan, Perbandingan
+    // Operator Aritmatika, Penugasan, Perbandingan
+    /*
+        var x;
+        var result;
 
-var x;
-var result;
+        x = 10;
+        x -= 5;
 
-x = 10;
-x -= 5;
+        result = 5;
 
-result = 5;
+        console.log(x); // 5
+        console.log(result == x); // true
+        console.log(10 === "10"); // false
+    */
 
-console.log(x); // 5
-console.log(result == x); // true
-console.log(10 === "10"); // false
-*/
+    // Operator Logic
+    /*
+        var x;
+        x = 8;
 
-// Operator Logic
+        // Cek x bilangan genap dan kurang dari 10
+        // x % 2 == 0 // cek x bilangan genap, x habis dibagi 2
+        // x < 10 // cek x kurang dari 10
+        if ((x % 2 == 0) && (x < 10)) {
+            console.log("x genap yang kurang dari 10");
+        } else {
+            console.log("x bukan genap yang kurang dari 10");
+        }
+    */
 
-/*
-var x;
-x = 8;
+    // inversion
+        // console.log(!(x < 10)); // aslinya true, diinverse ! jadi false
+    
+    // Operator String
+    /*
+        a = "apple";
+        b = "pen";
+        c = a + " " + b;
 
-// Cek x bilangan genap dan kurang dari 10
-// x % 2 == 0 // cek x bilangan genap, x habis dibagi 2
-// x < 10 // cek x kurang dari 10
-if ((x % 2 == 0) && (x < 10)) {
-    console.log("x genap yang kurang dari 10");
-} else {
-    console.log("x bukan genap yang kurang dari 10");
-}
+        console.log(c);
+    */
 
-// inversion
-console.log(!(x < 10)); // aslinya true, diinverse ! jadi false
-*/
+// Example [16] PopUp Box  _________________________
+    /*
+        var nama = prompt('Masukkan nama:'); // return any value
+        alert('Hai ' + nama + '! Semoga harimu menyenangkan');
+        
+        var tes = confirm('Kamu yakin?'); // return boolean
+        if (tes === true) {
+            alert('ternyata kamu yakin banget'); // return tes, true false from boolean
+        } else {
+            alert('kenapa sih kamu ga yakin?');
+        }
+    */
+    
+    /*  
+        alert('Selamat Datang..');
+        var lagi = true;
 
-// Operator String
+        // while (lagi === true) {}; // pake truthy value, tulis (lagi) aja ga perlu di strict equals
+        while (lagi) {
+            var nama = prompt('masukkan nama:');
+            alert('halo' + nama);
+
+            lagi = confirm('coba lagi?');
+        }
+
+        alert('Terima Kasih..');
+    */
 
 
-/*
-a = "apple";
-b = "pen";
-c = a + " " + b;
-
-console.log(c);
-*/
 
 
 // Example [X] Title  _________________________
+
