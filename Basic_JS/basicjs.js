@@ -118,15 +118,95 @@ Max = 64bit, 2^64
         confirm
 
 [17] Control Flow ______________________________________________
-    - Normal Flow
-        statement dieksekusi dari atas ke bawah, kiri ke kanan
-    - 
+    - Normal Flow (up to bottom)
+    - Loop Flow
+        for
+        while
+        do while
+    - Conditional Flow
+        if
+        if.. else
+        if.. else if.. else
+        switch   
 
+
+[18] Loop: While ________________________________________________
+    - while (kondisi) {aksi}; // selama kondisi () true, lakukan aksi dalam blok {}
+    - Stopping Strategy
+        - based on user action
+            var ulang = true;
+            while(ulang) {
+                console.log('hello world');
+                ulang = confirm('lagi?);
+            }
+        - based on stopping criteria
+            nilai awal
+            while(kondisi terminasi) {
+                aksi
+                increment/decrement
+            }
+        - 
+
+[20] Loop: For  ________________________________________
+    - Versi lebih ringkas dari while
+    - Syntax:
+        for ( var nilaiAwal = 1 ; nilaiAwal <= 10 ; nilaiAwal++) {
+            console.log('Hello World');
+        }
+
+[21] IF ELSE ____________________________________________
+    - Syntax:
+        if(kondisi) {
+            aksi 1
+        } else {
+            aksi 2
+        }
+        ...
+    
+
+[22] ELSE IF ____________________________________________
+    - pake condition di dalam loop: for
+    - ada lebih dari 2 kondisi
+    - Syntax:
+        if(kondisi 1) {
+            aksi 1
+        } else if(kondisi2) {
+            aksi 2
+        } else if(kondisi3) {
+            aksi 3
+        } else {
+            aksi 4
+        }
+
+[23] Conditioning Exercise ______________________________
+    - seru ini, akhirnya w pake array function
+
+[24] SWITCH _____________________________________________
+    - mirip if else 
+    - syntax:
+        switch (ekspresi) {
+            case "nilai 1":
+                aksi 1
+            [break;]
+            case "nilai 2":
+                aksi 2
+            [break;]
+            case "nilai n":
+                aksi n
+            [break;]
+            default:
+                aksi default
+            [break;]    
+        }
+    - 
 
 
 [X]
 */
 
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
 
 
 // Example [10, 11] Operator _________________________
@@ -201,8 +281,114 @@ Max = 64bit, 2^64
         alert('Terima Kasih..');
     */
 
+// Example [18] While  _________________________
+    /*
+        // Stopped by User
+        var ulang = true;
+        while (ulang) {
+            console.log('Hello World');
+            ulang = confirm('Lagi?);
+        }
 
+        // Stopped by Code
+        var nilaiAwal = 1;
+        while(nilaiAwal <= 3) {
+            console.log('Hello World');
+            nilaiAwal++; //nilaiAwal = nilaiAwal + 1;
+        }
 
+        // Modified
+        var nilaiAwal = 1;
+        while(nilaiAwal <= 10) {
+            console.log('Hello World ' + nilaiAwal + 'x');
+            nilaiAwal++; //nilaiAwal = nilaiAwal + 1;
+        }
+    */
+
+// Example [20] For _________________________
+    
+    // Task: Angkot 2, 1-6 Baik, 7-10 rusak
+    // Cara Fuad
+        // var noAngkot = 1;
+        // var jmlAngkot = 10;
+        // var jmlRusak = 4;
+
+        // for ( noAngkot ; noAngkot <= jmlAngkot ; noAngkot++) {
+        //     if (noAngkot <= (jmlAngkot - jmlRusak)) {
+        //         console.log('Angkot nomor ' + noAngkot + ' siap digunakan!');
+        //     } else {
+        //         console.log('Angkot nomor ' + noAngkot + ' rusak!');
+        //     }
+        // }
+    
+    //Cara Lain: pake while buat blok ga rusak, for buat blok rusak
+        // var jmlAngkot = 10;
+        // var angkotBeroperasi = 4;
+        // var noAngkot = 1;
+
+        // while (noAngkot <= angkotBeroperasi) {
+        //     console.log('Angkot nomor ' + noAngkot + ' siap digunakan!');
+
+        // noAngkot++;
+        // }
+
+        // for (noAngkot = (angkotBeroperasi + 1); noAngkot <= jmlAngkot; noAngkot++) {
+        //     console.log('Angkot nomor ' + noAngkot + ' rusak!');
+        // }
+    
+// Example [22] ELSE IF _________________________
+
+    // Number Prompt
+        // var angka = prompt('masukkan angka: ');
+
+        // if(angka % 2 == 0) {
+        //     alert(angka + ' is GENAP');
+        // } else if(angka % 2 == 1) {
+        //     alert(angka + ' is GANJIL');
+        // } else {
+        //     alert('your input is not a number!');
+        // }
+
+    // Angkot 1-6 baik, 8 lembur, sisanya ga beroperasi, max 10 angkot {NESTED CARA FUAD}
+        // var jmlAngkot = 10;
+        // var angkotBeroperasi = 4;
+        // var noAngkot = 1;
+        // var angkotLembur = 8;
+
+        // for (noAngkot ; noAngkot <= jmlAngkot; noAngkot++) {
+        //     if (noAngkot <= 6) {
+        //         console.log('Angkot nomor ' + noAngkot + ' beroperasi!');
+        //     } else {
+        //         if (noAngkot === 8) {
+        //             console.log('Angkot nomor ' + noAngkot + ' Lembur!');
+        //         } else {
+        //             console.log('Angkot nomor ' + noAngkot + ' tidak beroperasi!');
+        //         }
+        //     }
+        // }
+
+// Example [22] ELSE IF _________________________
+    // Angkot 1-6 baik, 5, 8, 10 lembur, sisanya ga beroperasi, max 10 angkot {CARA LAIN pake ARRAY}
+        var jmlAngkot = 10;
+        var angkotBeroperasi = 6;
+        var noAngkot = 1;
+        var angkotLembur = [5, 8, 10]; //tinggal tulis yg lembur di array ini
+
+        for (noAngkot ; noAngkot <= jmlAngkot; noAngkot++) {
+            if (noAngkot <= angkotBeroperasi) {
+                if(angkotLembur.includes(noAngkot, 0)) {
+                    console.log('Angkot nomor ' + noAngkot + ' Lembur!');
+                } else {
+                    console.log('Angkot nomor ' + noAngkot + ' beroperasi!');
+                }
+            } else {
+                if(angkotLembur.includes(noAngkot, 0)) {
+                    console.log('Angkot nomor ' + noAngkot + ' Lembur!');
+                } else {
+                    console.log('Angkot nomor ' + noAngkot + ' tidak beroperasi!');
+                }
+            }
+        }
 
 // Example [X] Title  _________________________
 
