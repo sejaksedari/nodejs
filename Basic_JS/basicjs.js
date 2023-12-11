@@ -198,11 +198,85 @@ Max = 64bit, 2^64
                 aksi default
             [break;]    
         }
-    - 
+    - perhatikan tipe data kalo pake prompt!!
+
+[25] NESTING 
+    - Seru challengenya broh, cek example
+
+[26] GAME SUIT
+
+[27-33] FUNCTION
+    - "Function is a key that makes a JS so powerful," Douglas Crockford 
+    - function =
+        - sub-program yg dapat dipanggil pada bagian lain pada program,
+        - merupakan struktur dasar pembentuk javascript,
+        - termasuk ke dalam first-class object
+    - Why function?
+        - reusability: DRY = do not repeat yourself
+        - decomposition / abstraction 
+        - modularity
+    - Category
+        - built-in fx (BIF)
+            - eg. alert(), confirm(), prompt(), slic(), split()
+            - BIF: String - https://www.w3schools.com/jsref/jsref_obj_string.asp
+            - BIF: Numbers - https://www.w3schools.com/jsref/jsref_obj_number.asp
+            - BIF: Math - https://www.w3schools.com/jsref/jsref_obj_math.asp
+        - user-defined fx (UDF)
+            - function (argument) { body }
+                - argument: simpen dalam (), boleh ada or enggak, jika ada boleh > 1, pisah oleh koma
+            - How to make it?
+                - function declaration
+                - function expression
+    - Good function = only do 1 specific task
+        - padi > gabah > beras > nasi > nasi goreng
+        - nasi gorengnya keras nih, oh ni pasti f(beras) = nasi penyebabnya. Jadi lebih mudah buat troubleshoot kalo modular functionnya
+    - Return?
+        - buat ngabarin nih kelar function yg gw bikin
+        - if a, return a, else, return b, bisa ada lebih dari 1 return nanti
+    - Parameter & Argument
+        - Parameter = variable tampung dalam kurung yg ditulis saat function dibuat
+        - Argument = nilai yg dikirim ke parameter pas fungsi dipanggil
+            - bahkan bisa masukin function ke dalem argument
+        - Rules: jumlah yg dimasukin
+            param < argu, kelebihan argu diabaikan (masuk ke arguments [array])
+            param > argu, kelebihan param diisi undefined
+        - !!!! arguments = array berisi nilai yg dikirim pas fungsi dipanggil 
+            - termasuk pseudovariable
+            - array itu variable yg sedikit lebih sakti, krn bisa nampung > 1 nilai
+    - Refactoring
+        - merubah kode agar jadi lebih 'baik' tanpa ngubah functionality
+        - why? increase readability, DRY, testability, performance, maintainability
+    - Variable Scope
+        - gimana suatu variable dapat diakses dalam program
+        - block scope vs function scope
+            - block scope {  }
+                - in C, variable yg dideclare di dalam { } hanya berlaku di dalam { }
+                - in JS, ga masalah ini masih bisa keprint krn JS nganut function scope
+            - function scope
+                - kalo manggil variable global dr dalem function bisa 
+                - kalo manggil variable local dr luar (global space) ga bisa
+                - analogi kaca film gelap, org luar ga bisa liat dalem mobil, tp dari dalem mobil bisa liat luar
+        - ada name conflict, misal var a = 1 ada di luar dan a = 2 di dalam function
+            - pas a dicall dr dalem fx, yg keluar 2, kecuali bilang window.a bakal keluar 1;
+            - pas a dicall dr luar, yg keluar 1
+        - menit 9:21 agak memusingkan, coba ulangi kalo bingung!
+            - kalo emang pengen bikin var local, jangan lupa nulis keyword var <sesuatu>, kalo ga gitu, JS bakal auto ngebuat <sesuatu> tadi jadi var global
+            - ini bakal mengotori lingkup variable global codinganmu!
+            - kecuali pake "use strict" yg melarang JS bikin global variable;
+        - cek endingnya buat ngelatih variable yg diinput sebagai argum ke suatu param
+            - ini kadang bikin bingung buat beginner programmer 
+    
+    
+    
+    - Recursive
+
 
 
 [X]
 */
+//TEORI
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
@@ -369,26 +443,292 @@ Max = 64bit, 2^64
 
 // Example [22] ELSE IF _________________________
     // Angkot 1-6 baik, 5, 8, 10 lembur, sisanya ga beroperasi, max 10 angkot {CARA LAIN pake ARRAY}
-        var jmlAngkot = 10;
-        var angkotBeroperasi = 6;
-        var noAngkot = 1;
-        var angkotLembur = [5, 8, 10]; //tinggal tulis yg lembur di array ini
+        // var jmlAngkot = 10;
+        // var angkotBeroperasi = 6;
+        // var noAngkot = 1;
+        // var angkotLembur = [5, 8, 10]; //tinggal tulis yg lembur di array ini
 
-        for (noAngkot ; noAngkot <= jmlAngkot; noAngkot++) {
-            if (noAngkot <= angkotBeroperasi) {
-                if(angkotLembur.includes(noAngkot, 0)) {
-                    console.log('Angkot nomor ' + noAngkot + ' Lembur!');
-                } else {
-                    console.log('Angkot nomor ' + noAngkot + ' beroperasi!');
-                }
-            } else {
-                if(angkotLembur.includes(noAngkot, 0)) {
-                    console.log('Angkot nomor ' + noAngkot + ' Lembur!');
-                } else {
-                    console.log('Angkot nomor ' + noAngkot + ' tidak beroperasi!');
-                }
-            }
-        }
+        // for (noAngkot ; noAngkot <= jmlAngkot; noAngkot++) {
+        //     if (noAngkot <= angkotBeroperasi) {
+        //         if(angkotLembur.includes(noAngkot, 0)) {
+        //             console.log('Angkot nomor ' + noAngkot + ' Lembur!');
+        //         } else {
+        //             console.log('Angkot nomor ' + noAngkot + ' beroperasi!');
+        //         }
+        //     } else {
+        //         if(angkotLembur.includes(noAngkot, 0)) {
+        //             console.log('Angkot nomor ' + noAngkot + ' Lembur!');
+        //         } else {
+        //             console.log('Angkot nomor ' + noAngkot + ' tidak beroperasi!');
+        //         }
+        //     }
+        // }
+
+// Example [24] SWITCH _____________________________
+        
+        // console.log('masukkan nama makanan or minuman: nasi, daging, susu, hamburger, softdrink');
+        
+        // var item = 'hamburger'
+        // console.log('\n' + item);
+
+        // switch(item) {
+        //     case 'nasi':
+        //     case 'daging':
+        //     case 'susu':
+        //         console.log('Ini SHEAT');
+        //         break;
+        //     case 'hamburger':
+        //     case 'softdrink':
+        //         console.log('Ini TAK SEHAT');
+        //         break;
+        //     default:
+        //         console.log('anda memasukkan sesuatu di luar list')
+        //         break;
+        // }
+
+// Example [25] NESTING ____________________________________
+
+// VAR 1 NORMAL UPWARD TRIANGLE siku kiri multiplied 2 times
+
+    // *
+    // **
+    // ***
+    // ****
+    // *****
+
+    // *
+    // **
+    // ***
+    // ****
+    // *****
+
+    // var s = '';
+    // for (i = 0; i < 2; i++) {
+    //     for (j = 0; j < 5; j++) {
+    //         for (k = 0; k <= j; k++) {
+    //             s += '*';
+    //         }
+    //         s += '\n';
+    //     }
+    //     s += '\n';
+    // }
+    // console.log(s);
+
+
+// VAR 2 PelengkapVar1
+
+    // **********
+    // _*********
+    // __********
+    // ___*******
+    // ____******
+    // _____*****
+    // ______****
+    // _______***
+    // ________**
+    // _________*
+    // __________
+
+    // var s = '';
+
+    // for (j = 0; j <= 10; j++) {
+    //     for (k = 0; k < j; k++) {
+    //         s += '_';
+    //     }
+    //     for (l = 0 ; l < 10 - j; l++) {
+    //         s += '*';
+    //     }
+    //     s += '\n';
+    // }
+    // s += '\n';
+
+    // console.log(s);
+
+// VAR 3 DOWNWARD TRIANGLE siku kiri
+    
+    // *****
+    // ****
+    // ***
+    // **
+    // *
+
+    // var s = '';
+    // for (j = 5; j > 0; j--) {
+    //     for (k = 0; k < j; k++) {
+    //         s += '*';
+    //     }
+    //     s += '\n';
+    // }
+    // s += '\n';
+    // console.log(s);
+
+// VAR 4 PelengkapVar2
+    
+    // __________
+    // _________*
+    // ________**
+    // _______***
+    // ______****
+    // _____*****
+    // ____******
+    // ___*******
+    // __********
+    // _*********
+    // **********
+
+    // var s = '';
+    // for (j = 10; j >= 0; j--) {
+    //     for (k = 0; k < j; k++) {   
+    //         s += '_';
+    //     }
+    //     for (l = 0 ; l < 10 - j; l++) {
+    //         s += '*';
+    //     }
+    //     s += '\n';
+    // }
+    // s += '\n';
+    // console.log(s);
+
+// VAR 5
+
+    // *
+    // **
+    // ***
+    // ****
+    // *****
+    // ****
+    // ***
+    // **
+    // *
+
+    // var s = '';
+    // var baris = 5;
+
+    // for (j = 0; j <= baris; j++) {
+    //     for (k = 0; k < j; k++) {
+    //         s += '_';
+    //     }
+    //     for (l = 0 ; l < baris - j; l++) {
+    //         s += ' ';
+    //     }
+    //     s += '\n';
+    // }
+
+    // for (j = baris - 1; j >= 0; j--) {
+    //     for (k = 0; k < j; k++) {   
+    //         s += '_';
+    //     }
+    //     for (l = 0 ; l < baris - j; l++) {
+    //         s += ' ';
+    //     }
+    //     s += '\n';
+    // }
+    // console.log(s);
+
+// VAR 6
+
+    //     *     
+    //    ***
+    //   *****
+    //  *******
+    // *********
+
+    // var s = '';
+    // var jmlbaris = 5;
+    // var baris = jmlbaris - 1;
+
+    // for (j = baris; j >= 0; j--) {
+    //     for (k = 0; k < j; k++) {   
+    //         s += '_';
+    //     }
+    //     for (l = 0 ; l < baris - j; l++) {
+    //         s += '*';
+    //     }
+        
+    //     s += '*';
+        
+    //     /*
+    //         logic setengah bagian:
+    //             if baris 5, then '*' = 0, '_' = 4
+    //             if baris 4, then '*' = 1, '_' = 3
+    //             if baris 3, then '*' = 2, '_' = 2
+    //             if baris 2, then '*' = 3, '_' = 1
+    //         That's Why:
+    //             '*' => (l = 0; l < baris - j; l++)
+    //             '_' => (k = 0; k < j; k++)
+    //     */
+
+    //     for (l = 0 ; l < baris - j; l++) {
+    //         s += '*';
+    //     }
+    //     for (k = 0; k < j; k++) {   
+    //         s += '_';
+    //     }
+        
+    //     s += '\n';
+    // }
+    // s += '\n';
+    // console.log(s);
+
+// Example [26] Game Suit (Skipped) ________________________________
+
+// Example [27-33] FUNCTION in JAVASCRIPT ________________________________
+
+    // function declaration
+    function jumlahDuaBilangan_Dec (a, b) { //parameter boleh ada or engga, asal tetep ditulis () nya
+        var total;
+        total = a + b;
+
+        return total;
+    }
+    
+    //function expression
+    var jumlahDuaBilangan_Exp = function(a, b) {
+        var total;
+        total = a + b;
+
+        return total;
+    }
+
+    //function add 2 cube volume
+    function jumlahDuaKubus (sisi_a, sisi_b) {
+        
+        var vol_a,
+            vol_b,
+            total;
+
+        vol_a = Math.pow(sisi_a, 3);
+        vol_b = Math.pow(sisi_b, 3);
+        total = vol_a + vol_b;
+
+        return total; // if a, return a, else, return b, bisa ada lebih dari 1 return nanti
+        
+        // Refactoring:
+        // return Math.pow(sisi_a, 3) + Math.pow(sisi_b, 3)
+    }
+
+    //Call function
+    console.log(jumlahDuaBilangan_Dec(2, 3));
+    console.log(jumlahDuaBilangan_Exp(1, 3));
+    console.log('jumlah 2 kubus = ' + jumlahDuaKubus(8, 3, 6));
+
+    // Variable Scope
+    var a = "a terpanggil";
+
+    function tes() {
+        var b = "b terpanggil dg function tes";
+        return b;
+    }
+
+    console.log(a);
+    // console.log(b); // ini ga bisa karena var b ga dicall pake function tes atau console.log(b) ditaruh setelah return b;
+    console.log(tes());
+
+
+
+
+
+
 
 // Example [X] Title  _________________________
-
+//CONTOH
