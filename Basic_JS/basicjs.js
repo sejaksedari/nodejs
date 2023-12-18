@@ -215,7 +215,7 @@ Max = 64bit, 2^64
         - reusability: DRY = do not repeat yourself
         - decomposition / abstraction 
         - modularity
-    - Category
+    - CATEGORY
         - built-in fx (BIF)
             - eg. alert(), confirm(), prompt(), slic(), split()
             - BIF: String - https://www.w3schools.com/jsref/jsref_obj_string.asp
@@ -233,7 +233,7 @@ Max = 64bit, 2^64
     - Return?
         - buat ngabarin nih kelar function yg gw bikin
         - if a, return a, else, return b, bisa ada lebih dari 1 return nanti
-    - Parameter & Argument
+    - PARAMETER & ARGUMENT
         - Parameter = variable tampung dalam kurung yg ditulis saat function dibuat
         - Argument = nilai yg dikirim ke parameter pas fungsi dipanggil
             - bahkan bisa masukin function ke dalem argument
@@ -243,10 +243,10 @@ Max = 64bit, 2^64
         - !!!! arguments = array berisi nilai yg dikirim pas fungsi dipanggil 
             - termasuk pseudovariable
             - array itu variable yg sedikit lebih sakti, krn bisa nampung > 1 nilai
-    - Refactoring
+    - REFACTORING
         - merubah kode agar jadi lebih 'baik' tanpa ngubah functionality
         - why? increase readability, DRY, testability, performance, maintainability
-    - Variable Scope
+    - VARIABLE SCOPE
         - gimana suatu variable dapat diakses dalam program
         - block scope vs function scope
             - block scope {  }
@@ -265,10 +265,90 @@ Max = 64bit, 2^64
             - kecuali pake "use strict" yg melarang JS bikin global variable;
         - cek endingnya buat ngelatih variable yg diinput sebagai argum ke suatu param
             - ini kadang bikin bingung buat beginner programmer 
-    
-    
-    
-    - Recursive
+    - RECURSIVE
+        - a function calling himself
+        - pastikan jangan sampe kena infinite loop
+        - Base Case = kondisi akhir dari rekursif yg menghasilkan nilai
+        - Syntax
+            function nama_fungsi(n) {
+                <base_case> if () return X;
+                return Y;
+            }
+        - Semua looping bisa dijadiin fungsi recursive, tapi tidak sebaliknya
+        - Implementasi
+            - gantiin looping
+            - fibonacci
+            - pencarian dan penelusuran pada struktur data list dan tree
+            - bahasa pemgrograman yg ga memiliki pengulangan kyk Haskell, Erlang, Prolog
+        - Coba jokes Google Recursion: search di google "recursion" nanti dia bakal ngereply did you mean: recursion? terus2an
+    - FUNCTION DECLARATION VS FUNCTION EXPRESSION, Opt = optional
+        - Fx Dec
+            - Syntax:
+                - funcition identifier (ParameterList_opt) {FunctionBody}
+            - Ciri
+                - lebih fleksibel (dapat ditulis di manapun, boleh define dulu baru panggil atau panggil dulu baru define) karna konsep Hoisting
+                - mudah dipahami pemula
+        - Fx Exp
+            - Syntax:
+                - var tampilPesan = funcition identifier_opt (ParameterList_opt) {FunctionBody}
+                - jadi Fx Exp = Fx Dec yg disimpen ke dalam sebuah ekspresi
+            - Ciri
+                - harus didefine dulu sebelum dipanggil, gabisa sebaliknya
+                - lebih powerfull (sebagai closure, sebagai argumen untuk function lain, IIFE [Immediately Invoked Function Expression])
+        - Terus pilih yg mana?
+            - secara umum, pake Fx Dec aja krn secara fungsi sama, kecuali buat optimasi
+
+[24-38] ARRAY
+    - INTRO
+        - Def: array = "variabel yg lebih sakti." [sakti = bisa nampung > 1 nilai]
+        - Why Array?
+                - Mempermudah pengelolaan nilai/value/data terutama buat nelusuri
+                - Efisiensi memori
+            - Detailed Def
+                - array = variable jamak, punya banyak elemen dan diacu dengan nama yg sama
+                - key and value pair
+                - key = index array starting from 0
+                - array in JS is an object
+                    - coba console.log(typeof(<namaArray>)), ntar outputnya 'object'
+                - object has a method and array has a method of length (one of them)
+                - in JS, array can be consisted of different data type (like PHP)
+                    - var myArr = ['teks', 2, false];
+                    - var myArr2 = ['teks', 2, false, myFunc]; //bisa nyimpen function dalem array
+                    - var myArr3 = ['teks', 2, false, myFunc, [4, 5, 6]];
+                        - coba akses value 5 yg ada di array dalam array myArr3: console.log(myArr3 [4] [1] );
+    - ARRAY MANIPULATION
+        - array.length()
+        - array.join()
+        - push pop unshift shift bener2 ngilangin element, bukan ngubah jadi undefined
+            - push (Add at End)
+                - A, B, C, D
+                - A, B, C, D, [E]
+            - pop (Remove at End)
+                - A, B, C, D, [E]
+                - A, B, C, D,
+            - unshift (Add at Start)
+                - A, B, C, D
+                - [E], A, B, C, D
+            - shift (Remove at Start)
+                - [E], A, B, C, D
+                - A, B, C, D
+        - Slice & Splice
+            - Slice = Mengiris sebuah array jadi array baru
+                slice(indexAwal, indexAkhir); // pastiin index Akhir itu 1 index setelah elemen terakhir yg mau kita IRIS.
+                Misal kita mau iris 2 index 1 2 di Index 0 1 2 3 4, slice(1,3); -> 0 3 4
+            - Splice = Menambal or Menyambung or Menyisipkan
+                - splice(indexAwal, mauDihapusBerapa<opt>, mauDitambahElemenBaru1<opt>, mauDitambahElemenBaru1<opt>, ... );
+        - ForEach, Map, Sort
+            - https://www.w3schools.com/jsref/jsref_foreach.asp
+            - https://www.w3schools.com/jsref/jsref_sort.asp 
+        - 
+        
+    - FOREACH AND MAP
+    - FILTER AND FIND
+        - 
+
+
+
 
 
 
@@ -673,62 +753,173 @@ Max = 64bit, 2^64
 // Example [26] Game Suit (Skipped) ________________________________
 
 // Example [27-33] FUNCTION in JAVASCRIPT ________________________________
+    /*
+        // function declaration
+        function jumlahDuaBilangan_Dec (a, b) { //parameter boleh ada or engga, asal tetep ditulis () nya
+            var total;
+            total = a + b;
 
-    // function declaration
-    function jumlahDuaBilangan_Dec (a, b) { //parameter boleh ada or engga, asal tetep ditulis () nya
-        var total;
-        total = a + b;
-
-        return total;
-    }
-    
-    //function expression
-    var jumlahDuaBilangan_Exp = function(a, b) {
-        var total;
-        total = a + b;
-
-        return total;
-    }
-
-    //function add 2 cube volume
-    function jumlahDuaKubus (sisi_a, sisi_b) {
+            return total;
+        }
         
-        var vol_a,
-            vol_b,
-            total;
+        // function expression
+        var jumlahDuaBilangan_Exp = function(a, b) {
+            var total;
+            total = a + b;
 
-        vol_a = Math.pow(sisi_a, 3);
-        vol_b = Math.pow(sisi_b, 3);
-        total = vol_a + vol_b;
+            return total;
+        }
 
-        return total; // if a, return a, else, return b, bisa ada lebih dari 1 return nanti
+        // function add 2 cube volume
+        function jumlahDuaKubus (sisi_a, sisi_b) {
+            
+            var vol_a,
+                vol_b,
+                total;
+
+            vol_a = Math.pow(sisi_a, 3);
+            vol_b = Math.pow(sisi_b, 3);
+            total = vol_a + vol_b;
+
+            return total; // if a, return a, else, return b, bisa ada lebih dari 1 return nanti
+            
+            // Refactoring:
+            // return Math.pow(sisi_a, 3) + Math.pow(sisi_b, 3)
+        }
+
+        // Call function
+        console.log(jumlahDuaBilangan_Dec(2, 3));
+        console.log(jumlahDuaBilangan_Exp(1, 3));
+        console.log('jumlah 2 kubus = ' + jumlahDuaKubus(8, 3, 6));
+
+        // Variable Scope
+        var a = "a terpanggil";
+
+        function tes() {
+            var b = "b terpanggil dg function tes";
+            return b;
+        }
+
+        console.log(a);
+        // console.log(b); // ini ga bisa karena var b ga dicall pake function tes atau console.log(b) ditaruh setelah return b;
+        console.log(tes());
+
+        // Recursive
+        function tampilAngka(n) {
+            
+            //Base Case
+            if(n === 0) {
+                return;
+            }
+            console.log(n);
+            tampilAngka(n-1);
+
+        }
+
+        tampilAngka(5);
+
+        // Recursive Factorial
+        function faktorial(n) {
+            if (n === 0) {
+                return 1;
+            }
+            return n * faktorial(n-1);
+        }
+
+        console.log(faktorial(5));
+
+        // detail perhitungan function faktorial
+            // faktorial (5)
+            // 5 * faktorial(4)
+            // 5 * (4 * faktorial(3))
+            // 5 * (4 * (3 * faktorial(2)))
+            // 5 * (4 * (3 * (2 * (faktorial(1))))
+            // 5 * (4 * (3 * (2 * 1)))
+            // 5 * (4 * (3 * (2))
+            // 5 * (4 * (6))
+            // 5 * 24
+            // 120
+    */
+
+// Example [34-38] ARRAY in JAVASCRIPT ________________________________
+    /*
+        // Intro
+        var myFunc = function() {
+            alert('Hello World!');
+        };
+
+        var myArr3 = ['teks', 2, false, myFunc, [4, 5, 6]];
+        console.log(myArr3[4][1]); // output = 5
+
+        // 1. Menambah isi array (manual)
+        console.log(myArr3);
+        myArr3[5] = "+ArrayId_5"; // tambah array id ke-5
+        console.log(myArr3);
+
+        // 2. Menghapus isi array (manual)
+        myArr3[3] = undefined; // hapus array id ke-3
+        console.log(myArr3);
+
+        // 3. Menampilkan seluruh isi array
+        for ( var i = 0; i < myArr3.length; i++ ) {
+            console.log('Isi index ke-' + i + ' itu: ' + myArr3[i]);
+        }
+
+        // 4. Method: JOIN -> rubah isi array jadi string, bisa diatur separatornya, di case ini ' - '
+        console.log(myArr3.join(' - '));
+
+        // 5. Method: Push, Add, Unshift, Shift
+        myArr3.push('Push'); // Add at end
+        console.log(myArr3);
+
+        myArr3.unshift('Unshift'); // Add at start
+        console.log(myArr3);    
+    */
+        // 6. Splice and Slice
+            var arr = [1, 2, 3, 4, 5, 6, 7, 8];
+            console.log(arr);
+
+            // splice(indexAwal, mauDihapusBerapa<opt>, mauDitambahElemenBaru1<opt>, mauDitambahElemenBaru1<opt>, ... );
+            arr.splice(2, 1, '3New'); // hapus int 3 di array dan ganti dengan string '3New'
+            console.log(arr);
+            
+
+            var arr2 = arr.slice(2, 3); // Ambil '3New' dari Array jadi Array2
+            console.log(arr2);
         
-        // Refactoring:
-        // return Math.pow(sisi_a, 3) + Math.pow(sisi_b, 3)
-    }
+        // 7. ForEach, Map, Sort
+            console.log('\n');
+            var angka = [15, 20, 9, 1, 2, 3, 4, 5, 6, 7, 8];
 
-    //Call function
-    console.log(jumlahDuaBilangan_Dec(2, 3));
-    console.log(jumlahDuaBilangan_Exp(1, 3));
-    console.log('jumlah 2 kubus = ' + jumlahDuaKubus(8, 3, 6));
+            // kita coba function expression
+            var cetak = function(e, i) {
+                console.log('Cetak indeks ke-' + i + ' isinya ' + e);
+                // i refer ke index, e refer to element
+            };
 
-    // Variable Scope
-    var a = "a terpanggil";
+            // forEach nggak mengembalikan nilai array, cuma nampilin doang
+            angka.forEach(cetak);
 
-    function tes() {
-        var b = "b terpanggil dg function tes";
-        return b;
-    }
+            // map mengembalikan nilai aray, kita bakal kaliin e dengan 2
+            var angka2 = angka.map(function(e) {
+                return e * 2;
+            });
 
-    console.log(a);
-    // console.log(b); // ini ga bisa karena var b ga dicall pake function tes atau console.log(b) ditaruh setelah return b;
-    console.log(tes());
+            console.log(angka2.join(' - '));
 
-
+            // Sort dengan bener, harus ada function a-b;
+            // https://www.w3schools.com/jsref/jsref_sort.asp
+            angka.sort(function(a,b) {
+                return a-b; // biar urut bener2
+            });
+            console.log(angka.join(' - '));
+        
+        
+        // 8.
 
 
 
 
 
 // Example [X] Title  _________________________
-//CONTOH
+// CONTOH
