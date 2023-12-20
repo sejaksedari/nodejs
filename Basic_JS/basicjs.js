@@ -341,11 +341,13 @@ Max = 64bit, 2^64
         - ForEach, Map, Sort
             - https://www.w3schools.com/jsref/jsref_foreach.asp
             - https://www.w3schools.com/jsref/jsref_sort.asp 
-        - 
-        
-    - FOREACH AND MAP
-    - FILTER AND FIND
-        - 
+        - Filter and Find
+            - Find = return 1 nilai
+            - Filter = return banyak nilai
+    - 
+
+
+[41-44] OBJECT in JS
 
 
 
@@ -875,6 +877,7 @@ Max = 64bit, 2^64
         myArr3.unshift('Unshift'); // Add at start
         console.log(myArr3);    
     */
+    /*
         // 6. Splice and Slice
             var arr = [1, 2, 3, 4, 5, 6, 7, 8];
             console.log(arr);
@@ -913,9 +916,146 @@ Max = 64bit, 2^64
                 return a-b; // biar urut bener2
             });
             console.log(angka.join(' - '));
-        
-        
-        // 8.
+    */
+    /*
+        // 8. Filter and Find
+            var angka = [1,2,10,5,20,3,6,8,4];
+            
+            var angka2 = angka.filter(function(x) {
+                return x > 5;
+            });
+
+            var angka3 = angka.find(function(x) {
+                return x > 5;
+                // hasilnya bakal 10, bukan 6, karena logicnya si find itu dia nyari dari index terkecil dulu, kalo nemu yg > 5 lgsg direturn, kebetulan index yg terisi angka 10 < index yg terisi angka 6 (berdasarkan index, bukan value)
+            });
+            
+            console.log(angka2);
+            console.log(angka3);
+    */
+
+
+
+// Example [39-40] JURAGAN ANGKOT ________________________________
+    /*
+        // https://www.youtube.com/watch?v=mgRpWhNNGZo&list=PLFIM0718LjIWXagluzROrA-iBY9eeUt4w&index=39&ab_channel=WebProgrammingUNPAS
+        // INI VERSI FUAD:
+
+        // var penumpang = ['Raja','Tiara','Jakson'];
+        var penumpang = [];
+        var penumpangAngkot2 = [];
+
+        // penumpang[0] = undefined
+        // penumpang[1] = undefined
+        // penumpang[2] = undefined
+
+        console.log(penumpang);
+
+        tambahPenumpang('Fuad', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('Siraj', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('Siraj', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('Juangga', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('Abdiel', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('Juangga', penumpang);
+        console.log(penumpang);
+
+        hapusPenumpang('Fuad', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('Ziya', penumpang);
+        console.log(penumpang);
+
+        hapusPenumpang('Siraj', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('BapakJuangga', penumpang);
+        console.log(penumpang);
+
+        hapusPenumpang('Ziya', penumpang);
+        console.log(penumpang);
+
+        hapusPenumpang('BapakJuangga', penumpang);
+        console.log(penumpang);
+
+        hapusPenumpang('Juangga', penumpang);
+        console.log(penumpang);
+
+        hapusPenumpang('Abdiel', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('Jokowi', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('Prabowo', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('Anies', penumpang);
+        console.log(penumpang);
+
+        tambahPenumpang('Ganjar', penumpang);
+        console.log(penumpang);
+
+        console.log("\n");
+        hapusPenumpang('Jeju', penumpangAngkot2);
+        console.log(penumpangAngkot2);
+
+        function hapusPenumpang (b, y) {
+            // kalo angkot kosong, tampilkan pesan bahwa angkot kosong
+            if (y.length == 0) {
+                console.log("Angkot Kosong");
+            // kalo yg disebut ga ada di dalam angkot, tampilkan si X ga ada
+            } else if (!(y.includes(b))) {
+                console.log(b + " tidak ada di dalam angkot");
+            // kalo yg disebut ada, suruh turun dengan jadiin dia undefined
+            } else {
+                for (var i = 0; i < y.length; i++) {
+                    if (y[i] == b) {
+                        y.splice(i, 1, undefined);
+                        console.log(b + " sudah turun dari angkot");
+                    } else {
+                        // console.log("ELse")
+                    }
+                }
+            }
+        }
+
+        function tambahPenumpang (a, x) {
+            // kalo ada kursi kosong di suatu angkot(array), telusuri keseluruhan kursi, kalau kursi ke-i kosong, cek dulu apakah di angkot tersebut ada nama yg sama dengan yg mau naik, kalo udah ada, dia ga boleh masuk angkot, kalo ga ada, suruh dia duduk di kursi kosong tersebut
+            if(x.includes(undefined)) {
+                for (var i = 0; i < x.length; i++) {
+                    if(x[i] == undefined) {
+                        if (x.includes(a)) {
+                            // console.log("Test")
+                            x.splice(i, 0); // dummy operation, ga ngapa2in
+                        } else {
+                            x.splice(i, 1, a);
+                        }
+                    }
+                }
+            // kalo kursi kosong udah full, kalo ada nama yg sama di angkot dengan yg mau naik, tolak dan kasih peringatan 
+            } else if(x.includes(a)) {
+                console.log(a + " sudah ada di dalam angkot");
+            // kalo kursi kosong udah full, tambahin kursi baru di angkot tersebut dan bolehin si penumpang naik
+            } else {
+                x.push(a);
+            }
+        }
+
+    */
+
+// Example [41-44] OBJECT ________________________________
+
+
 
 
 
