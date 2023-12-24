@@ -200,12 +200,12 @@ Max = 64bit, 2^64
         }
     - perhatikan tipe data kalo pake prompt!!
 
-[25] NESTING 
+[25] NESTING _____________________________________________
     - Seru challengenya broh, cek example
 
-[26] GAME SUIT
+[26] GAME SUIT _____________________________________________ 
 
-[27-33] FUNCTION
+[27-33] FUNCTION _____________________________________________
     - "Function is a key that makes a JS so powerful," Douglas Crockford 
     - function =
         - sub-program yg dapat dipanggil pada bagian lain pada program,
@@ -298,7 +298,7 @@ Max = 64bit, 2^64
         - Terus pilih yg mana?
             - secara umum, pake Fx Dec aja krn secara fungsi sama, kecuali buat optimasi
 
-[24-38] ARRAY
+[34-38] ARRAY _____________________________________________
     - INTRO
         - Def: array = "variabel yg lebih sakti." [sakti = bisa nampung > 1 nilai]
         - Why Array?
@@ -344,11 +344,50 @@ Max = 64bit, 2^64
         - Filter and Find
             - Find = return 1 nilai
             - Filter = return banyak nilai
-    - 
 
+[41-44] OBJECT in JS _____________________________________________
+    - variable = wadah nilai 
+    - [] array = kumpulan nilai, yg memiliki index [variable yg lebih sakti]
+    - {} object = kumpulan nilai, yg memiliki nama [array yg lebih sakti]
+        - in JS, objects are king, if u dont understand object, u dont understand JS
+        - di language lain:
+            - PHP: Associative Array
+            - Pyhton: Dictionaries
+            - C: Hash Tables
+            - Java: Hash Maps
+            - Ruby & Perl: Hashes
+    - Why Object?
+        - less repetition
+        - more modular
+    - Object Anatomy
+        
+        // OBJECT
+        var Orang = {
 
-[41-44] OBJECT in JS
+            // variable dalam object = PROPERTY (dipisahkan oleh tanda , )
+            nama : 'Fuad Azaim',
+            umur : 31,
+            pekerjaan : '3D Artist',
 
+            // function dalam object = METHOD
+            sapa : function() {
+                return 'Hi, nama saya ' + this.nama;
+            }
+        }
+    - Mwmbuat Object
+        - Literal (kyk yg sebelumnya)
+        - Function Declaration
+        - Constructor FUnction (keyword new, this., gaperlu var object sama return object ) <- lebih banyak digunakan
+        - Object.create (pake method) <- dibahas nanti
+    - Konsep This di Constructor
+        - konteks global, this == window
+        - Inget! property = var di dalem object, method = function di dalam object
+            - https://medium.com/@ananthvishnu/difference-between-properties-and-method-in-java-script-947537ddb93d
+        - This Context:
+            - 1 function declaration --> 'this' will return global object
+            - 2 object literal --> 'this' will return objek yg bersangkutan
+            - 3 constructor --> 'this' return objek YG BARU DIBUAT (Instance masing2)
+            Nanti bakal lebih paham pas udah belajar DOM (Document Object Model)
 
 
 
@@ -1055,9 +1094,163 @@ Max = 64bit, 2^64
 
 // Example [41-44] OBJECT ________________________________
 
+// Cara1: Object Literal
+    /*
+        var mhs = {
+            nama        : "Fuad Azaim Siraj",
+            umur        : 24,
+            IPSem       : [3.00, 2.50, 3.20],
+            IPKum       : function () {
+                var total = 0;
+                var ips = this.IPSem;
+                for ( var i = 0; i < ips.length; i++ ) {
+                    total += ips[i];
+                }
+                return total / ips.length;
+            },
+            alamat  : {
+                jalan       : "Jalan Kanayakan Barat 32",
+                kota        : "Bandung",
+                provinsi    : "Jawa Barat"
+            }
+        }
+
+        console.log(mhs.nama); // output "Fuad Azaim Siraj"
+        console.log(mhs.umur); // output "24"
+        console.log(mhs.alamat.provinsi); // output "Jawa Barat"
+        console.log(mhs["alamat"]["provinsi"]); // alt version to call pake []
+        console.log(mhs.IPSem); // output [ 3.00, 2.50, 3.20 ]
+        console.log(mhs.IPSem[2]); // output [3.20]
+        console.log(mhs.IPKum()); // output 2.9
+    */
+
+// Cara2: Function Declaration
+    /*
+        // lebih ringkas dari Cara1 karna deklarasi kita buat sekali, objeknya bisa dibuat berulang2
+    
+        function buatObjectMahasiswa(nama, nrp, email, jurusan) {
+            var mhs = {}; // deklarasi variable mhs sebagai objek
+
+            // bikin placeholder buat properti
+            mhs.nama = nama;
+            mhs.nrp = nrp;
+            mhs.email = email;
+            mhs.jurusan = jurusan;
+            
+            return mhs;
+        }
+
+        // assign
+        // isi objeknya dan assign ke custom var baru
+        var mhs1 = buatObjectMahasiswa('Fuad', '02411840000133', 'fuad@gmail.com', 'T.Industri');
+        var mhs2 = buatObjectMahasiswa('Azaim', '02411840000090', 'azaim@gmail.com', 'T.Perminyakan');
+        var mhs3 = buatObjectMahasiswa('Siraj', '02411840000111', 'siraj@gmail.com', 'T.Arsitektur');
+
+        // call
+        // console.log(mhs1);
+    */
+
+// Cara3: Constructor <- bakal paling sering dipake nanti
+
+    /*
+        // mirip dengan function declaration. constructor ini function khusus di JS untuk buat object
+
+        function Mahasiswa(nama, nrp, email, jurusan) { //umumnya constructor awalnya kapital
+            
+            // di sini, VAR OBJECT sama RETURN OBJECT udah diganti sama VAR THIS dan RETURN THIS secara IMPLISIT
+            this.nama = nama;
+            this.nrp = nrp;
+            this.email = email;
+            this.jurusan = jurusan;
+
+        }
+
+        // assign (kasih keyword new!!!!, biar si JS ga asumsi kita pake function declaration)
+        var mhs4 = new Mahasiswa('Riza', '02411840000162', 'riririza@gmail.com', 'Computer Science')
+
+        //call
+        console.log(mhs4);
+    */
+    
+// LATIHAN Konsep This di Object: Develop Pengelolaan Angkot Pake Object _______________________________
+
+// - What to Manage?
+//     - Sopir
+//     - Trayek
+//     - Kas
+//     - penumpang (naik, turun) 
+
+    /*
+        function Angkot(sopir, trayek, penumpang, kas) {
+            
+            this.sopir = sopir;
+            this.trayek = trayek;
+            this.penumpang = penumpang;
+            this.kas = kas;
+
+            this.tambahPenumpang = function(a) {
+                // kalo ada kursi kosong di suatu angkot(array), telusuri keseluruhan kursi, kalau kursi ke-i kosong, cek dulu apakah di angkot tersebut ada nama yg sama dengan yg mau naik, kalo udah ada, dia ga boleh masuk angkot, kalo ga ada, suruh dia duduk di kursi kosong tersebut
+                if(this.penumpang.includes(undefined)) {
+                    for (var i = 0; i < this.penumpang.length; i++) {
+                        if(this.penumpang[i] == undefined) {
+                            if (this.penumpang.includes(a)) {
+                                // console.log("Test")
+                                this.penumpang.splice(i, 0); // dummy operation, ga ngapa2in
+                            } else {
+                                this.penumpang.splice(i, 1, a);
+                            }
+                        }
+                    }
+                // kalo kursi kosong udah full, kalo ada nama yg sama di angkot dengan yg mau naik, tolak dan kasih peringatan 
+                } else if(this.penumpang.includes(a)) {
+                    console.log(a + " sudah ada di dalam angkot");
+                // kalo kursi kosong udah full, tambahin kursi baru di angkot tersebut dan bolehin si penumpang naik
+                } else {
+                    this.penumpang.push(a);
+                }
+            }
+
+            this.hapusPenumpang = function(b, bayar) {
+                // kalo angkot kosong, tampilkan pesan bahwa angkot kosong
+                if (this.penumpang.length == 0) {
+                    console.log("Angkot Kosong");
+                // kalo yg disebut ga ada di dalam angkot, tampilkan si X ga ada
+                } else if (!(this.penumpang.includes(b))) {
+                    console.log(b + " tidak ada di dalam angkot");
+                // kalo yg disebut ada, suruh turun dengan jadiin dia undefined
+                } else {
+                    for (var i = 0; i < this.penumpang.length; i++) {
+                        if (this.penumpang[i] == b) {
+                            this.penumpang.splice(i, 1, undefined);
+                            // bayar
+                            this.kas += bayar
+                            // alert
+                            console.log(b + " sudah turun dari angkot");
+                        } else {
+                            // console.log("ELse")
+                        }
+                    }
+                }
+            }
+
+        }
+
+        // Instancing Event
+        var angkot1 = new Angkot('Agus', ['Cicaheum', 'Cibiru'], ['Irma'], 0);
+        var angkot2 = new Angkot('Bambang', ['Antapani', 'Ciroyom'], [], 0);
+
+        angkot1.tambahPenumpang('Joni');
+        angkot1.hapusPenumpang('Irma', 2000);
+        angkot1.tambahPenumpang('Ajeng');
+        angkot1.hapusPenumpang('Joni', 3000);
+        angkot1.hapusPenumpang('Ilham', 3000);
 
 
-
+        // Call
+        console.log(angkot1.penumpang);
+        console.log(angkot1.kas);
+    
+    */
 
 
 
