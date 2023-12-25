@@ -42,7 +42,7 @@ Max = 64bit, 2^64
             10 + "10" = "1010"
             10 + 10 + "10" = "2010"
             "10" + 10 + 10 = "101010"
-            Intinya, + otomatis ngidentifikasi kalo ada string di operand, lgsg convert jadi string. makanya di contoh ke-2 itu angka + angka jadi 20 dulu baru 2010 karna + ga identifikasi sbg string di operasi pertama
+            Intinya, + otomatis ngidentifikasi kalo ada string di operand, lgsg convert jadi string. makanya di cont ke-2 itu angka + angka jadi 20 dulu baru 2010 karna + ga identifikasi sbg string di operasi pertama
     - Ternary Op (butuh 3 operand)
         - Kondisional
             (kondisi) ? benar : salah
@@ -389,9 +389,43 @@ Max = 64bit, 2^64
             - 3 constructor --> 'this' return objek YG BARU DIBUAT (Instance masing2)
             Nanti bakal lebih paham pas udah belajar DOM (Document Object Model)
 
+// [ADVANCED JAVASCRIPT] |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+[1] OBJECT ___________________________________________________________________
+
+    - How to Make Object
+        - Object Literal
+        - Function Declaration, Object.create
+            - efisiensi memori masih mirip object literal, tapi bisa ditweak dg ngeluarin function jadi object di luar function declaration
+            - ada perubahan method, ubah juga di function declaration, atau bisa juga pake cara otomatis: OBJECT.CREATE (seperti konsep warisan)
+            - tapi meskipun gitu, kita butuhnya function mahasiswa, yg method itu kita pisahin jadi object baru, ya sama aja harus bikin dan ngelola 2 object. makanya kita perlu tahu konsep PROTOTIPE
+        - Constructor Function
+            - Constructor pada dasarnya mirip function declaration, tapi versi optimised: (1) init dan return this dilakukan secara implisit, (2) buat bikin method pakai konsep PROTOTIPE
+        - Class
+            - mirip constructor function, tapi versi optimised lagi: (1) init dan return this juga implisit, (2) konsep prototipe juga udah implisit, lebih rapi (sebenernya class itu yg dijalanin konsep constructor function tapi ga dishow aja)
+    - Implikasi tau konsep OBJECT dan PROTOTIPE
+        - let mahasiswa1 = new Mahasiswa('Fuad', 10); <- coba analisis
+        - misal kita bikin array
+            - let angka = [];
+            - let angka = new Array();
+
+            - di belakang layar ada ini:
+            - function Array() {
+                let this = Object.create(Array.prototype);
+            }
+        - ternyata emang yg terjadi di belakang layar itu sebuah constructor function, di mana Array itu adalah object dan setiap object pasti punya prototipe, karena si Objecr.create itu menghubungkan function tsb dengan parentnya yakni Array.prototype
+        - dan dengan itu ktia bisa manggil method yg merupakan prototype dari object array, BISA MANGGIL ARRAY METHOD kyk sort, reverse, dll.
+
+// [2] CONTEXT, HOISTING, SCOPE ___________________________________________________________________
+        
 
 
 
+
+
+
+
+[NEXT: DOM JAVASCRIPT]
 
 [X]
 */
@@ -1252,7 +1286,213 @@ Max = 64bit, 2^64
     
     */
 
+// [ADVANCED JAVASCRIPT] |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+// [1] OBJECT _______________________________________________________________________
+
+    // Object Literal <<<<<<<
+        // let mahasiswa = {
+
+        //     // prop
+        //     nama    : 'Fuad',
+        //     energi  : 10,
+
+        //     // method
+        //     makan: function (porsi) {
+        //         this.energi = this.energi + porsi;
+                
+        //         // pake backtick method buat bikin STRING LITERAL
+        //         console.log(`Selamat datang ${this.nama}, Selamat Makan!. Energi Anda bertambah sebesar ${porsi} sehingga totalnya sebesar ${this.energi}`);
+        //     }
+        // }
+        
+        // console.log(mahasiswa);
+        // console.log(mahasiswa.makan(75));
+
+    // Function Declaration (secara memori masih ga efisien, mirip object literal) <<<<<<<
+        // function Mahasiswa(nama, energi) {
+            
+        //     // initiate let
+        //     let mahasiswa = {};
+
+        //     // prop
+        //     mahasiswa.nama = nama;
+        //     mahasiswa.energi = energi;
+
+        //     // method
+        //     mahasiswa.makan = function(porsi) {
+        //         this.energi += porsi;
+        //         console.log(`Selamat datang ${this.nama}, Selamat Makan!. Energi Anda bertambah sebesar ${porsi} sehingga totalnya sebesar ${this.energi}`);
+        //     }
+
+        //     // return let
+        //     return mahasiswa;
+        // }
+
+        // // Instancing
+        // let mahasiswa1 = Mahasiswa('Fuad', 10);
+        // let mahasiswa2 = Mahasiswa('Siraj', 10);
+        
+        // // Call
+        // console.log(mahasiswa1);
+        // console.log(mahasiswa2);
+        // console.log(mahasiswa1.makan(75));
+        // console.log(mahasiswa2.makan(75));
+    
+     // Constructor (PALING SERING DIPAKE, hapus initiate dan return ) <<<<<<<
+
+        // function Mahasiswa(nama, energi) {
+
+        //     // prop
+        //     this.nama = nama;
+        //     this.energi = energi;
+
+        //     // method
+        //     this.makan = function(porsi) {
+        //         this.energi += porsi;
+        //         console.log(`Selamat datang ${this.nama}, Selamat Makan!. Energi Anda bertambah sebesar ${porsi} sehingga totalnya sebesar ${this.energi}`);
+        //     }
+        // }
+
+        // // Instancing (NEW blabla)
+        // let mahasiswa1 = new Mahasiswa('Fuad', 10);
+        // let mahasiswa2 = new Mahasiswa('Siraj', 10);
+        
+        // // Call
+        // console.log(mahasiswa1);
+        // console.log(mahasiswa2);
+        // console.log(mahasiswa1.makan(75));
+        // console.log(mahasiswa2.makan(75));
+
+    // FUNCTION DECLARATION FT. OBJECT.CREATE FT. PROTITIPE (Code Efficiency Mindset)
+    /*
+        // Pisahin semua method jadi sebuah object baru
+        const methodMahasiswa = {
+            makan: function (porsi) {
+                this.energi += porsi;
+                console.log(`Halo ${this.nama}, selamat makan!`);
+            },
+
+            main: function (jam) {
+                this.energi -= jam;
+                console.log(`Halo ${this.nama}, selamat bermain!`);
+            },
+
+            tidur: function (jam) {
+                this.energi += jam * 2;
+                console.log(`Halo ${this.nama}, selamat tidur!`);
+            },
+        }
+
+        function Mahasiswa(nama, energi) {
+            
+            // Sambungin object methodMahasiswa pake Object.create saat inisiasi let or var di awal
+            let mahasiswa = Object.create(methodMahasiswa);
+            // let mahasiswa = {};
+            
+            mahasiswa.nama = nama;
+            mahasiswa.energi = energi;
+
+            return mahasiswa;
+        }
+
+        let mahasiswa1 = Mahasiswa('Fuad', 10);
+        let mahasiswa2 = Mahasiswa('Siraj', 10);
+        
+        mahasiswa1.tidur(2);
+        mahasiswa2.main(2);
+        mahasiswa1.tidur(2);
+        
+        console.log(mahasiswa1);
+        console.log(mahasiswa2);
+        
+    */
+    
+    
+    // CONSTRUCTOR, by default dia pake inherited prototype sebagai parent
+    /*
+        function Mahasiswa(nama, energi) {
+        
+            // let mahasiswa = Object.create(methodMahasiswa);
+            // let mahasiswa = {};
+            
+            // di belakang layar: let this = Object.create(Mahasiswa.prototype);
+
+            this.nama = nama;
+            this.energi = energi;
+            
+            // return mahasiswa;
+
+            // di belakang layar: return this;
+        }
+
+        Mahasiswa.prototype.makan = function (porsi) {
+            this.energi += porsi;
+            console.log(`Halo ${this.nama}, selamat makan!`);
+        }
+
+        Mahasiswa.prototype.main = function (jam) {
+            this.energi -= jam;
+            console.log(`Halo ${this.nama}, selamat bermain!`);
+        }
+
+        Mahasiswa.prototype.tidur = function (jam) {
+            this.energi += jam * 2;
+            console.log(`Halo ${this.nama}, selamat tidur!`);
+        }
+
+        let mahasiswa1 = new Mahasiswa('Fuad', 10);
+        let mahasiswa2 = new Mahasiswa('Siraj', 10);
+        
+        mahasiswa1.tidur(2);
+        mahasiswa2.main(2);
+        mahasiswa1.tidur(2);
+        
+        console.log(mahasiswa1);
+        console.log(mahasiswa2);
+    */
+
+    // Rebuild CONSTRUCTOR versi CLASS (karna JS baru2 aja mengimplementasikan konsep kelas di bahasannya), ini lebih rapi daripada pake prototype.
+
+        class Mahasiswa {
+            constructor(nama, energi) {
+                this.nama = nama;
+                this.energi = energi;
+            }
+
+            // bikin method
+            makan(porsi) {
+                this.energi += porsi;
+                console.log(`Halo ${this.nama}, selamat makan!`);
+            }
+    
+            main(jam) {
+                this.energi -= jam;
+                console.log(`Halo ${this.nama}, selamat bermain!`);
+            }
+    
+            tidur(jam) {
+                this.energi += jam * 2;
+                console.log(`Halo ${this.nama}, selamat tidur!`);
+            }
+        }
+
+        // Class Instancing, tetep pake "new"
+        let mahasiswa1 = new Mahasiswa('Fuad', 10);
+        let mahasiswa2 = new Mahasiswa('Siraj', 10);
+        
+        mahasiswa1.tidur(2);
+        mahasiswa2.main(2);
+        mahasiswa1.tidur(2);
+        
+        console.log(mahasiswa1);
+        console.log(mahasiswa2);
 
 
+
+// [2] CONTEXT, HOISTING, SCOPE ___________________________________________________________________
+
+    
 // Example [X] Title  _________________________
 // CONTOH
+
