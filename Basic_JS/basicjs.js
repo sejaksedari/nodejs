@@ -416,11 +416,80 @@ Max = 64bit, 2^64
         - ternyata emang yg terjadi di belakang layar itu sebuah constructor function, di mana Array itu adalah object dan setiap object pasti punya prototipe, karena si Objecr.create itu menghubungkan function tsb dengan parentnya yakni Array.prototype
         - dan dengan itu ktia bisa manggil method yg merupakan prototype dari object array, BISA MANGGIL ARRAY METHOD kyk sort, reverse, dll.
 
-// [2] CONTEXT, HOISTING, SCOPE ___________________________________________________________________
-        
+// [2] EXECUTION CONTEXT, HOISTING, SCOPE, CLOSURE ___________________________________________________________________
+    - 2 Phase in Execution Context
+        - Creation
+            - Creation phase pada global context
+            - Cari var let const function pada setiap baris
+            - nama var = undefined
+            - nama function = fn()
+            - window = global object
+            - this = window
+            - HOISTING, -> mengerek bendera ke atas, jadi proses creation dr bawah ke atas
+        - Execution
+            - eksekusi dari atas ke bawah
+            - function() = dijalanin, function = gak dijalanin
+            - jgn lupa kalo bikin function, di akhir kasih return
+            - https://pythontutor.com/javascript.html#mode=edit, coba cek ini buat simulasi code execution biar lebih paham apa itu HOISTING
+    - function membuat Local Execution Context (LEC)
+        - yg di dlaamnya ada creation n execution, LEC bikin kita bisa akses window dan arguments, trs ada local hoisting juga
+        - misal kita mau kasi argument ke sebuah function, tapi di function ga ada yg nangkap "function()", si argument kita ga ilang, tetep kesimpen di memori, ke object "arguments"
+        - Hoisting = ngisi sesuatu (let, var, local fx, dll) dengan undefined 
+    - Closure
+        - closure = kombinasi antara function dan lexical scope (parent scope) di dalam function tsb.
+        - Why we need closure?
+            - untuk bikin function factories
+            - untuk membuat private method
 
+// [Quick Tip] VAR LET CONST ___________________________________________________________________
 
+    - Pake let aja biar behavior variable sama kyk bahasa pemrograman lain
+        - kalo pake var ada undefined, hoisting, kalo pake let lgsg diassign error
+        - kalo kita bikin incremental for loop, pas value 10 keluar, i bakal ditangkap sama console.log(i) di luar for dan diprint as 10. di language lain ga bisa. Nah, biar mirip behaviornya, pake FUNCTION SCOPE
+            - IIFE (Immediately Invoked Function Expression) & SIAF(Self Invoking Anonymous Function) dibuat supaya variable di dalam functionnya ga bisa diakses dari luar
+            - dimasukin ke variable:
+                - var x = function() {...}
+            - langsung dijalanin (SIAF or IIFE):
+                - (function() {...} () );
+            > [implikasi: kalo collab, kan mungkin pake var yg sama sam orang lain. buat menjaga biar varnya gak bentrok, simpen aja semuanya ke dalam suatu variable atau dibuat SIAF/IIFE]
+        - ES6 (Ecma Script 6) - Pake LET or CONST!!! [BLCOK SCOPE]
+            - ganti semua var jadi let biar behaviornya BLOCK Scope, bukan FUNCTION Scope
+            - Why JS menganut function scope? kok ga langsung block code? is it a design decision dear mr brendan?
+                - Brendan: "10 days did not leave time for block scope, also many scripting languages of that mid-90s era had few scopes and grew more later"
+            - bedanya LET sam CONST? kalo kita yakin nilainya di tengah2 code ga bakal berubah, pake CONST, else pake LET
+                - kita masih bisa ngubah CONST object atau CONST array asal ga semuanya, valuenya aja yg kita ubah.
 
+// [3] ARROW FUNCTION ___________________________________________________________________
+
+    - Bentuk lebih ringkas dari function expression
+        - function expression:
+            let A = function (nama) {
+                alert('halo' + nama);
+            }
+            A('Fuad');
+        - Arrow function:
+            let A = (nama) => { alert('halo' + nama); }
+            A('Fuad');
+    - Konsep this pada arrow function beda sama yg biasanya, kalo method bisa
+        - saat pake arrow function, dia ga menyimpan konteks this
+        - dia bakal mencari this. ke lexical scope, di parent scopenya
+    - Contoh implementasinya bisa ngulik2 css buat toggle sebuah action, tp kudu paham dulu DOM
+
+// [4] HIGHER ORDER FUNCTION ___________________________________________________________________
+
+    - INTRO
+        - Function yg beroperasi pada function lain, baik digunakan dalam argumen maupun sebagai return value
+        - di JS, sebuah function disebut First Class Function dan juga diperlakukan sebagai object
+        - Why butuh HOF?
+            - Abstraksi (menyederhanakan kode rumit, krn semakin besar sebuah program, semakin kompleks, semakin bikin programmer bingun g)
+            - kita jadi punya paradigma functional programming
+        - Contoh HOF:
+            - array.prototype.map()
+            - array.prototype.filter()
+            - array.prototype.reduce()
+    - FILTER, MAP, REDUCE
+        - gila, keren bett, jadi lebih clean codenya kalo paham 3 ini sama arrow function
+    - 
 
 
 
@@ -429,7 +498,7 @@ Max = 64bit, 2^64
 
 [X]
 */
-//TEORI
+// TEORI
 
 
 
@@ -1453,7 +1522,7 @@ Max = 64bit, 2^64
     */
 
     // Rebuild CONSTRUCTOR versi CLASS (karna JS baru2 aja mengimplementasikan konsep kelas di bahasannya), ini lebih rapi daripada pake prototype.
-
+    /*
         class Mahasiswa {
             constructor(nama, energi) {
                 this.nama = nama;
@@ -1487,12 +1556,283 @@ Max = 64bit, 2^64
         
         console.log(mahasiswa1);
         console.log(mahasiswa2);
+    */
 
 
+// [2] EXECUTION CONTEXT, HOISTING, SCOPE, CLOSURE ___________________________________________________________________
 
-// [2] CONTEXT, HOISTING, SCOPE ___________________________________________________________________
+        // [A] Coba jalanin ini pake https://pythontutor.com/javascript.html#mode=edit
+
+            // function a() {
+            //     console.log('ini a');
+
+            //     function b() {
+            //         console.log('ini b');
+
+            //         function c() {
+            //             console.log('ini c');
+            //         }
+            //         c();
+            //     }
+            //     b();
+            // }
+            // a();
+
+        // [B} yg tampil di layar apa dari codingan ini? easy!!__________
+
+            // function satu() {
+            //     var nama = 'Shandika';
+            //     console.log(nama);
+            // }
+
+            // function dua() {
+            //     console.log(nama);
+            // }
+
+            // console.log(nama); // undefined, ga ada var nama, masih kestore Undefined
+            // var nama = 'Erik';
+            // satu(); // Sandhika, assign context local dulu
+            // dua('Doddy'); // Erik, Doody ga ada yg nangkep di function dua, jadi dia nyari global var nama yakni Erik, tapi argument Doddy ga ilang, kestore as arguments
+            // console.log(nama); // Erik
+
+        // [C] Closure
+
+            // function init() {
+            //     let nama = 'Shandika'; // local variable
+            //     function tampilNama() { // inner function (closure*), kalo inner function butuh variable di parent scopenya, maka inner function ini disebut dg closure
+            //         console.log(nama); // akses ke parent variable
+            //     }
+            //     tampilNama();
+            // }
+            // init();
+            
+        // [D] Function Factoring, function tampilNama cuma disimpen jadi return tapi ga dijalankan, nanti dijalankan pas init diassign ke panggilNama dan dicall panggilNama()
+
+            // // Eg.1
+                // function init() {
+                //     // let nama = 'Shandika';
+                //     function tampilNama(nama) {
+                //         console.log(nama);
+                //     }
+                //     return tampilNama;
+                // }
+                // let panggilNama = init();
+                // panggilNama('Fuad');
+
+            // // Eg.2
+                // // function parent bisa buat nyimpen value, inner function bisa diubah-ubah
+                
+                // function ucapkanSalam(waktu) {
+                //     return function (nama) { // anonymous function
+                //         console.log(`Halo ${nama}, Selamat ${waktu}, semoga harimu menyenangkan!`);
+                //     }
+                // }
+                // let selamatPagi = ucapkanSalam('Pagi');
+                // let selamatSiang = ucapkanSalam('Siang');
+                // let selamatMalam = ucapkanSalam('Malam');
+
+                // console.log(selamatMalam('Fuad'));
+                // console.log(ucapkanSalam('Pagi')('Fuad')); // alternative
+            
+
+        // [E] Private Method
+            // let add = function() {
+            //     let counter = 0; // counter jadi private ga bisa diakses dr luar
+            //     function incr() { // inner function
+            //         return ++counter;
+            //         // return counter = counter + 1; //alternative
+            //     }
+            //     return incr;
+            // }
+
+            // // counter = 100; // meskipun ada value ini tapi ga bakal mengganggu local counter di dalem function add krn kita pake closure
+
+            // // pindahin add ke variable a biar ga setengah jalan
+            // let a = add (); // add buat jalanin semuanya, a buat jalanin inner function
+
+            // console.log(a());
+            // console.log(a());
+            // console.log(a());
+
+
+// [Quick Tip] VAR LET CONST ___________________________________________________________________
+
+// [3] ARROW FUNCTION __________________________________________________________________________
+
+        // // Arrow function explicit return, 2 parameters
+            // const tampilNama = (nama, waktu) => {
+            //     return `Selamat ${waktu}, ${nama}`;
+            // }
+            // console.log(tampilNama('Fuad', 'Malam'));
+
+        // // Arrow function implicit return, 1 parameter
+            // const tampilNamaz = namaz => `Halo ${namaz}`;
+            // console.log(tampilNamaz('Fuad'));
+
+        // // Arrow function no implici return, No paramter
+            // const tampilNamax = () => 'Hello World!';
+            // console.log(tampilNamax());
+
+        // // No Arrow funct, Ubah array jadi function "nama" yg return array length
+            // let mahasiswa = ['Fuad', 'Azaim', 'Siraj'];
+            // let jumlahHuruf = mahasiswa.map(function (nama) { return nama.length; })
+            // console.table(jumlahHuruf);
+
+        // // Arrow function, ubah array jadi function "nama" yg return array length
+        // // versi lebih ringkas dr atas
+            // let mahasiswa = ['Fuad', 'Azaim', 'Siraj'];
+            // let jumlahHuruf = mahasiswa.map( nama => nama.length);
+            // console.table(jumlahHuruf);
+
+        // // Arrow function, ubah array jadi function object "nama" dg 2 properties
+            // let mahasiswa = ['Fuad', 'Azaim', 'Siraj'];
+            // let jumlahHuruf = mahasiswa.map( nama => ({ nama: nama, jmlHuruf: nama.length}) ); 
+                // nama (ini PROPERTY): nama (ini PROPERTY VALUE)
+            // console.table(jumlahHuruf);
+
+// [4] HIGHER ORDER FUNCTION ___________________________________________________________________
+
+    // // 'kerjakanTugas' = Higher Order Function (function yg memiliki callback sbg argumennya), 'status' = Callback (function yg dijadiin argumen)
+        // function kerjakanTugas(matakuliah, status) {
+        //     console.log(`Mulai mengerjakan tugas ${matakuliah}`);
+        //     status();
+        // }
+
+        // function selesai() {
+        //     console.log(`Selesai mengerjakan!`);
+        // }
+
+        // function belumSelesai() {
+        //     console.log(`Belum selesai mengerjakan!`);
+        // }
+
+        // kerjakanTugas('ekonomi', selesai);
+
+    // // 'ucapkanSalam' = HOF, karena dia return function lain di dalamnya (di case ini function anonym)
+
+        // function ucapkanSalam(waktu) {
+        //     return function (nama) {
+        //         console.log(`Halo ${nama}, Selamat ${waktu}, semoga harimu menyenangkan!`);
+        //     }
+        // }
+
+        // let selamatMalam = ucapkanSalam('Malam');
+        // console.dir(selamatMalam('Fuad'));
+    
+    // FILTER, MAP, REDUCE _____________________________________________________
+    
+    // FOR (cari angka >= 3)
+        // const angka = [-1, 8, 9, 1, 4, -5, -4, 3, 2, 9];
+        // const angkaFor = [];
+
+        // for (let i = 0; i < angka.length; i++) {
+        //     if ( angka[i] >= 3 ) {
+        //         angkaFor.push(angka[i]);
+        //     }
+        // }
+
+        // console.table(angkaFor);
+
+    // FILTER (cari angka >= 3) (pake function callback, ada function di argumennya)
+        // const angka = [-1, 8, 9, 1, 4, -5, -4, 3, 2, 9];
+        // const angkaFor = angka.filter(function(angkaMember) {
+        //     return angkaMember >= 3;
+        // });
+
+        // // // alternative pake arrow function (lebih ringkas)
+        // // // const angkaFor = angka.filter ((angkaMember) => angkaMember >= 3);
+
+        // console.table(angkaFor);
+
+    // MAP (kalikan angka * 2)
+        // const angka = [-1, 8, 9, 1, 4, -5, -4, 3, 2, 9];
+        // const angkaFor = angka.map ((angkaMember) => angkaMember * 2);
+        // console.table(angkaFor);
+
+    // REDUCE (jumlah semua elemen array + initial array of 4) (reduce untuk memanipulasi keseluruhan array)
+        // const angka = [-1, 8, 9, 1, 4, -5, -4, 3, 2, 9];
+        // // 4 + -1 + 8 + 9 + 1 + 4 + -5 + -4 + 3 + 2 + 9
+        // const angkaFor = angka.reduce ((accumulator, currentValue) => accumulator + currentValue, 4);
+        // console.table(angkaFor); // output 30
+
+    // METHOD CHAINING
+    // Cara Fuad: cari angka > 5, kalikan 3, jumlahkan
+        // const angka = [-1, 8, 9, 1, 4, -5, -4, 3, 2, 9];
+
+        // const angkaCari = angka.filter (function (angkaMember) {
+        //     return angkaMember > 5;
+        // });
+
+        // const angkaKalikan = angkaCari.map (function (angkaMember) {
+        //     return angkaMember * 3;
+        // });
+
+        // const angkaSum = angkaKalikan.reduce (function (accumulator, currentValue) {
+        //     return accumulator + currentValue;
+        // });
+
+        // console.table(angkaCari);
+        // console.table(angkaKalikan);
+        // console.table(angkaSum);
+
+    // Cara Dhika: cari angka > 5, kalikan 3, jumlahkan [VERY CLEAN MENN GILSS]
+        // const angka = [-1, 8, 9, 1, 4, -5, -4, 3, 2, 9];
+
+        // const hasil = angka.filter((a) => a > 5)
+        //     .map((a) => a * 3)
+        //     .reduce((acc, cur) => acc + cur, 0);
+
+        // console.table(hasil);
+
+    // Latihan FILTER, MAP, REDUCE _____________________________________________________
+    /*
+        let dataVideos = [
+            "15:27",
+            "11:18 JAVASCRIPT LANJUTAN",
+            "21:40 JAVASCRIPT LANJUTAN",
+            "19:38",
+            "12:10 JAVASCRIPT LANJUTAN",
+            "20:43 JAVASCRIPT LANJUTAN",
+            "14:30",
+            "26:38 JAVASCRIPT LANJUTAN",
+            "17:33 JAVASCRIPT LANJUTAN",
+            "10:39 JAVASCRIPT LANJUTAN",
+            "17:31 JAVASCRIPT LANJUTAN",
+            "14:25"
+        ]
+        
+        // filter data yang ada "JAVASCRIPT LANJUTAN"
+        const jsLanjut_JS = dataVideos.filter((video) => video.includes("JAVASCRIPT LANJUTAN"));
+        
+        // Ambil durasi masing2 video
+        let jsLanjut = jsLanjut_JS.map((x) => x.slice(0, 5))
+        // const jsLanjut = jsLanjut_JS.map((x) => x.slice(-x.length, -20)); // alternative
+        
+        // [Chaining] Ubah durasi menjadi float, ubah menit menjadi detik
+            .map((waktu) => {
+                // 10:30 -> [10, 30], displit
+                const parts = waktu.split(":").map(part => parseFloat(part));
+                return (parts[0] * 60) + parts[1];
+            })
+        
+        // [Chaining] jumlahin semua detik 
+            .reduce((total, detik) => total + detik, 0);
+        
+        // // Ubah formatnya jadi jam menit detik
+        const jam = Math.floor(jsLanjut / 3600); // 2.303...2 JAM
+        jsLanjut = jsLanjut - (jam * 3600); // 8292 - (7200) = 1092 detik
+        const menit = Math.floor(jsLanjut / 60); // 18 MENIT
+        
+        jsLanjut = jsLanjut - (menit * 60); // 1092 - (1080) = 12 detik
+        const detik = jsLanjut;
+        
+        console.table(`The total playlist duration is ${jam} hours, ${menit} minutes, ${detik} seconds`);
+    */
 
     
 // Example [X] Title  _________________________
 // CONTOH
+
+
+
 
