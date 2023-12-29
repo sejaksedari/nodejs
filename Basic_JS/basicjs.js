@@ -473,7 +473,7 @@ Max = 64bit, 2^64
     - Konsep this pada arrow function beda sama yg biasanya, kalo method bisa
         - saat pake arrow function, dia ga menyimpan konteks this
         - dia bakal mencari this. ke lexical scope, di parent scopenya
-    - Contoh implementasinya bisa ngulik2 css buat toggle sebuah action, tp kudu paham dulu DOM
+    - Eg implementasinya bisa ngulik2 css buat toggle sebuah action, tp kudu paham dulu DOM
 
 // [4] HIGHER ORDER FUNCTION ___________________________________________________________________
 
@@ -483,15 +483,49 @@ Max = 64bit, 2^64
         - Why butuh HOF?
             - Abstraksi (menyederhanakan kode rumit, krn semakin besar sebuah program, semakin kompleks, semakin bikin programmer bingun g)
             - kita jadi punya paradigma functional programming
-        - Contoh HOF:
+        - Eg HOF:
             - array.prototype.map()
             - array.prototype.filter()
             - array.prototype.reduce()
     - FILTER, MAP, REDUCE
         - gila, keren bett, jadi lebih clean codenya kalo paham 3 ini sama arrow function
-    - 
 
+// [5] TEMPLATE LITERAL / STRING ___________________________________________________________________
 
+    - INTRO
+        - Template literal = string literal yang memungkinkan adanya expression di dalamnya
+        - pake backtick biar bisa bikin template literal:
+            - multi-line string
+            - embedded expression
+            - HTML fragments
+            - expression interpolation
+            - tagged template (ini bermanfaat)
+    - More on Tagged Template
+        - Terus fungsinya apa kita menghasilkan string yg sama pake tag template padahal kita bisa langsung console.log aja string keseluruhannya?? biar lebih MODULAR
+            - Nampilin sebuah string hasil pencarian berdasarkan keyword tertentu, dan keyword tsb terhighlight
+            - Escaping HTML Tags (menghindari karakter atau script yg ga diinginkan di halamn web, buat ngehindari phisisng, hacking, dll -> sanitize)
+            - Translation and Internationalisation (buat alih bahasa)
+            - Styled Components (misal pake VueJS or ReachJS)
+
+// [6] DESTRUCTURING VARIABLE / ASSIGNMENT ___________________________________________________________
+    - Destructuring
+        - Expression pada JS yg membuat kita dapat membongkar nilai dari array or property dari object ke dalam variable yang terpisah
+    - Destructuring Array [ ]
+        - How to Assign Array
+        - Skipping Items
+        - Swapping Items
+        - Return Value pada Function
+        - Rest Parameter ...
+    - Destructuring Object { }
+        - How to Assign Object
+        - Assignment without Object Declaration, wrap with ( )
+        - Assign to a New & Different Variable
+        - Assign with rest Parameter ...
+    - Latihan1, pake array, assignment order matters
+    - Latihan2, pake object, assignment order doesn't matter
+    - Lathian3, function argument destructuring
+
+// [7] FOR.. OF vs FOR.. IN ___________________________________________________________
 
 
 [NEXT: DOM JAVASCRIPT]
@@ -1829,7 +1863,263 @@ Max = 64bit, 2^64
         console.table(`The total playlist duration is ${jam} hours, ${menit} minutes, ${detik} seconds`);
     */
 
+// [5] TEMPLATE LITERAL / STRING ___________________________________________________________________
+
+    // text biasa
+        // console.log(`string text`);
+
+    // multiline string, kalo diconsole log, mau beda line tinggal enter biasa ga perlu pake \n
+        // console.log(
+        // `
+        // string text line 1
+        // string text line 2
+        // string text line 3
+        // `
+        // );
+
+    // Simple Expression 1
+        // console.log(`string text ${expression} string text`);
     
+    // Simple Expression 2
+        // console.log(`hasil dari ${ 1 + 1 } adalah`);
+    
+    // Simple Expression 3
+        // const x = 110;
+        // console.log(`${( x - 5 == 5) ? 'benar' : 'salah'}`);
+
+    // ____________________________________________
+    // TEMPLATE LITERALS LATIHAN ---------> SKIPPED
+    // --------------------------------------------
+
+    // Tagged Template literals, sebuah function bisa nangkep strings dan expression dari template  literals yg punya tag
+    /*
+        let nama = 'Fuad';
+        let umur = 24;
+
+        function tangkap(strings, ...args) {
+            
+            // // return salah satu elemen aja, bisa diganti return ke strings atau args kalo mau, atau spesifik ke suatu expression  misal nama atau umur
+            //     return args;
+
+            // // return gabungan strings dan expression (PAKE forEach)
+            //     let result = ''; // bikin variable kosong
+            //     strings.forEach((str,i) => { // rangkai satu per satu
+            //         result += `${str}${args[i] || '' }`; // karena str selalu lebih besar 1 daripada args, misal kata 'oppa' str ada 4, args[i] ada 3, makanya kudu pake operator || buat ngilangin undefined di hasil console.log gara2 pada saat string terakhir 'tahun' dia tetep harus cetak args sedangkan setelah 'tahun' udah ga ada expression lagi. Logic: kalo args ada isinya, tampilin, kalo ga ada, tampilin string kosong '' 
+            //     }); 
+            //     return result;
+
+            // return gabungan strings dan expression (PAKE REDUCE)
+                return strings.reduce((result, str, i) => `${result}${str}${args[i] || ''}`, '');
+
+        }
+
+        const strLit = tangkap`Halo, nama saya ${nama}, saya ${umur} tahun`;
+        console.log(strLit);
+    */
+
+
+// [6] DESTRUCTURING VARIABLE / ASSIGNMENT ___________________________________________________________
+        
+        // // ARRAY >>>
+
+        // // Buat Assign Array + Skipping Items + Swapping Items
+            // let perkenalan = ['Halo', 'nama', 'saya', 'Fuad'];
+            // let[A, , ,D] = perkenalan; //syntax, [] = [];
+            // console.log(D); // Output: 'Fuad'
+            // [A, , ,D] = [D, , ,A];
+            // console.log(D) // Swap, Output: 'Halo'
+
+        // // Swapping Items
+            // let a = 1;
+            // let b = 2;
+            // console.log(a); // Output: '1'
+            // [a, b] = [b, a];
+            // console.log(a); // Output: '2'
+
+        // // Return Value pada Function
+            // function coba() {
+            //     return [1, 2];
+            // }
+
+            // const [a, b] = coba();
+            // console.log(a);
+
+        // // Rest Parameter ...
+            // const [a, b, ...cuy] = [1, 2, 3, 4, 5, 6, 7];
+            // console.log(a);
+            // console.log(b);
+            // console.log(cuy[0]);
+            // console.log(cuy);
+
+        // // OBJECT >>>>
+
+        // // Destructuring Object
+            // const mhs = {
+            //     nama: 'Fuad',
+            //     umur: 17,
+            //     domisili: 'Sidoarjo'
+            // }
+
+            // // const nama = mhs.nama // biasanya gini cara lama
+            // const { nama, umur, domisili } = mhs; // di case object, nama destructuring variable sesuai nama property object
+            // console.log(nama);
+
+        // // Assignment Tanpa Deklarasi Object, wrap with ( )
+            // // const nama = mhs.nama // biasanya gini cara lama
+            // ( { nama, umur, domisili } = {
+            //     nama: 'Fuad',
+            //     umur: 17,
+            //     domisili: 'Sidoarjo'
+            // } ); // 2 object diwrap ( ) tanpa declare
+            // console.log(umur);
+
+        // // Assign ke Variable Baru yg Berbeda
+            // const mhs = {
+            //     nama: 'Fuad',
+            //     umur: 17,
+            //     domisili: 'Sidoarjo'
+            // }
+
+            // // const nama = mhs.nama // biasanya gini cara lama
+            // const { nama: a, umur: b, domisili: c, email: d = 'default@gmail.com', gender } = mhs; // langsung pake : buat assign property ke variable baru, trs misal kita kasih variable email, kalo ga ada di object, dia bakal refer ke value '' sebelahnya email, kalau ada, dia bakal refer ke email dalem object
+            // console.log(d);
+            // console.log(gender); // undefined
+
+        // // Bisa Assign pake Rest Parameter
+            // const mhs = {
+            //     nama: 'Fuad',
+            //     umur: 17,
+            //     domisili: 'Sidoarjo'
+            // }
+
+            // const { nama, ...value } = mhs; // tapi 'value' ini jadi object jadi pas diconsole log ga bisa pake value[i], harus value.properties;
+            // console.log(nama); // Fyad
+            // console.log(value.umur); // 17
+            // console.log(mhs.umur); // 17
+        
+        // // Mengambil field pada object, setelah dikirim sebagai argumen untuk function, misal ngambil dari API yg punya ID
+            // const mhs = {
+            //     id: 123,
+            //     nama: 'Fuad',
+            //     umur: 17,
+            //     domisili: 'Sidoarjo'
+            // }
+
+            // function getId_Umur_Sum_Mhs({ id, umur }) { // masuk sini, kiriman dari console.log dibongkar dulu, biar yg ditangkap di sini hanya properties { id } aja, atau coba id sama umur dijumlahin bisa juga, jadi ga semuanya
+            //     return id + umur;
+            // }
+
+            // console.log(getId_Umur_Sum_Mhs(mhs)); // kirim object ke function getIdMhs
+
+        // _______________________________LATIHAN_____________________________
+
+        // // Latihan 1 - Pake Array, Order Matters
+            // function operasi(a, b) {
+            //     return [a + b, a - b, a * b, a / b];
+            // }
+
+            // // // Cara lama
+            // // const jumlah = operasi(2,3) [0];
+            // // console.log(jumlah); // output: 5
+            // // const kali = operasi(2,3) [2];
+            // // console.log(kali); // output: 6
+
+            // // pake destructuring array
+            // const [jumlah, kurang, kali, bagi] = operasi(2,3);
+            // console.log(jumlah);
+            // console.log(kurang);
+            // console.log(kali);
+            // console.log(bagi);
+        
+        // // Latihan 2 - Pake Object, Order doesn't Matters
+            // function operasi(a, b) {
+            //     return {
+            //         jumlah: a + b,
+            //         kurang: a - b,
+            //         kali: a * b,
+            //         bagi: a / b
+            //     }
+            // }
+
+            // // pake destructuring object, order ga ngaruh
+            // const {kali, bagi, jumlah, kurang} = operasi(2,3);
+            // console.log(jumlah);
+            // console.log(kurang);
+            // console.log(kali);
+            // console.log(bagi);
+
+        // Latihan 3: Destructuring Function Argument
+        /*
+            const mhs1 = {
+                nama: 'Fuad Azaim Siraj',
+                umur: 20,
+                email: 'azaimfuad229@gmail.com',
+                nilai: {
+                    tugas: 80,
+                    uts: 85,
+                    uas: 75
+                },
+                skillCode: {
+                    js: {
+                        js_def: 'JavaScript',
+                        js1: 'jQuery',
+                        js2: 'VueJS',
+                        js3: 'nodeJS',
+                        js4: 'p5JS',
+                        js5: 'ml5JS'
+                    },
+                    py: {
+                        py_def: 'Python',
+                        py1: 'NumPy',
+                        py2: 'Tensorflow'
+                    }
+                } 
+            }
+
+            // Cara Baru: Destructuring
+            function cetakMhs({nama, umur, nilai: {tugas, uts, uas}, skillCode: {js: {js_def, js4}, py: {py_def, py1, py2}}}) { // langsung dipecah di sini, argumen yg ga dicall ga usah ditulis di paramter function
+                return `Halo, nama saya ${nama}, saya berumur ${umur} tahun. Lalu, nilai UAS saya adalah ${uas}. Saya juga berpengalaman menggunakan library visualisasi pada ${js_def} seperti ${js4} dan ${py_def} dengan ${py2} `;
+            }
+
+            let data1 = cetakMhs(mhs1); // dikirim sebagai objek
+            console.log(data1);
+
+              // // // Cara Lama 1, kirim argumen pake properti
+            // // function cetakMhs(nama, umur) {
+            // //     return `Halo, nama saya ${nama}, saya berumur ${umur} tahun.`
+            // // }
+
+            // // let data1 = cetakMhs(mhs1.nama, mhs1.umur);
+            // // console.log(data1);
+
+
+            // // // Cara Lama 2, kirim argumen pake object
+            // // function cetakMhs(mhs) {
+            // //     return `Halo, nama saya ${mhs.nama}, saya berumur ${mhs.umur} tahun.`
+            // // }
+
+            // let data1 = cetakMhs(mhs1);
+            // console.log(data1);
+        */
+
+// [7] FOR.. OF vs FOR.. IN ___________________________________________________________
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
 // Example [X] Title  _________________________
 // CONTOH
 
