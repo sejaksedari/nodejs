@@ -1,0 +1,30 @@
+[
+    {
+        "nama": "Fuad Azaim Siraj",
+        "nrp": "02411840000133",
+        "email": "azaimfuad@gmail.com",
+        "jurusan": "Teknik Industri",
+        "idDosenWali": 1
+    },
+    {
+        "nama": "Budi Irawan Sanjaya",
+        "nrp": "02411840000182",
+        "email": "budi@gmail.com",
+        "jurusan": "Teknik Informatika",
+        "idDosenWali": 2
+    },
+    {
+        "nama": "Chikita Duanzisita",
+        "nrp": "02411840000111",
+        "email": "chikita@gmail.com",
+        "jurusan": "Arsitektur",
+        "idDosenWali": 2
+    },
+    {
+        "nama": "Doddy Saputra",
+        "nrp": "02411840000127",
+        "email": "doddy@gmail.com",
+        "jurusan": "Teknik Kelautan",
+        "idDosenWali": 1
+    }
+]
