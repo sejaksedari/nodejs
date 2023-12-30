@@ -527,6 +527,80 @@ Max = 64bit, 2^64
 
 // [7] FOR.. OF vs FOR.. IN ___________________________________________________________
 
+    - Intro
+        - [1] for..of = Creates a loop iterating over iterable object
+            - iterable object = string, array, arguments/nodeList, typedArray, Map, Set, User-defined Iterables
+        - [2] for..in = Creates a loop iterating over enumerables (kayak property)
+        - 2 ini merupakan syntax looping baru di JS
+
+
+// [8] SPREAD OPERATOR & REST PARAMETER ________________________________________________________
+
+    - Intro
+        - Spread Operator = memecah (expand/unpack) iterables menjadi single element
+            - Gabungin 2/lebih array  
+            - Mengcopy array
+            - [SKIPPED] animasi text di html span single
+        - Rest Parameter = Merepresentasikan argument pada function dengan jumlah yang tidak terbatas menjadi sebuah array (Notasi sama, beda fungsi aja)
+            - Rest paramter must be last formal paramter
+            - kenapa ga langsung return arguments? bisa aja tapi bentuknya bukan array, atau tetep pake arguments dan diconvefrt jadi array dulu pake
+                - Array.from(arguments)
+                - return [...arguments];
+
+
+// [9] ASYNCHRONOUS JS ________________________________________________________
+    - Definisi
+        - JS? High level programming language!
+        - JS? is a single-threaded, non-blocking, asynchronous and concurrent language
+            - single-threaded = (do 1 thing at 1 time) urutan eksekusi kode yg dapat dilakukan secara bebas atau independen satu sama lain
+            - non-blocking = (ga ngeblock) pas punya task1, walau belom kelar, bisa masuk ke task2
+            - asynchronous (single threaded) = (gak urut) kita ngerjain task1, belom beres, thread bisa pindah ke task2, belom beres, balik ke task1, dah beres, balik ke task2
+            - Concurrency = asynchronous + single-threaded
+            - Parallelism = asynchronous + multi-threaded
+            - Illustration: https://stackoverflow.com/questions/59139242/stdasync-does-not-seem-to-really-implement-single-threaded-asynchronous-beha
+        - Conclusion
+            - Single vs Multi Thread = lingkungan eksekusi 'task'
+            - Blocking vs Non-Blocking = teknik 'ngoding' (IO related)
+            - Sync vs Async = teknik 'ngoding' (HTTP Request related), Ajax stuff
+            - Concurrent vs Parallel = lingkungan eksekusi 'task'
+        - So, JS = single-threaded, non-blocking, async, concurrent
+    - JS is a "V8 Engine" planted into web browser
+        - 2 parts:
+            - Heap: [Memory allocation] eg. hoisting, saving variable, saving function
+            - Stack: [function call & execution context] eg. console.log()
+        - Async will talks more on the Stack part
+            - Visit = http://latentflip.com/loupe/
+            - Visit = https://pythontutor.com/render.html#mode=edit
+            - Check Out = What the heck is the event loop anyway?
+    - Teknik2 Asynchronous:
+        - Callback, Promise, Ajax, Async & Await
+    - Why we need to learn this?
+        - supaya bisa nyiptain program yg nyaman digunakan sama user
+    - Intinya:
+        - Don't Block the EVENT LOOP!
+
+// [10.1] CALLBACK ________________________________________________________
+
+    - Def: Sebuah function yg paratemetrnya function
+    - mahasiswa.json ga boleh ada comment or ; di akhir array
+    - Ada beberapa percobaan:
+        - Sync callback
+        - Async callback (pretending)
+        - Async callback (using JSON, Vanilla JS & Live Server)
+        - Async callback (using JSON, jQuery (.ajax) & Live Server)
+    - Next bakal belajar Async callback using Vanilla dan .fetch (metode baru) tanpa pake library jQuery
+
+// [11] PROMISE ________________________________________________________
+
+
+
+
+
+
+
+
+
+
 
 [NEXT: DOM JAVASCRIPT]
 
@@ -2100,19 +2174,317 @@ Max = 64bit, 2^64
 
             // let data1 = cetakMhs(mhs1);
             // console.log(data1);
-        */
+        // */
 
 // [7] FOR.. OF vs FOR.. IN ___________________________________________________________
-
-
-
-
-
-
-
-
-
     
+    // FOR..OF -> buat ITERABLES
+        // // Cara 1 - for Loop
+            // const mahasiswas = ['Afad', 'Budi', 'Canthika', 'Dendi'];
+            // for(let i = 0; i < mahasiswas.length; i++) { // pake let karena value berubah
+            //     console.log(mahasiswas[i]);
+            // }
+
+        // // Cara 2 - forEach
+            // const mahasiswas = ['Afad', 'Budi', 'Canthika', 'Dendi'];
+            // mahasiswas.forEach((mahasiswa) => console.log(mahasiswa));
+
+        // // Cara 3 - FOR..OF - pake const karena ga kayak for loop yg berubah terus
+            // const mahasiswas = ['Afad', 'Budi', 'Canthika', 'Dendi'];
+            // for ( const mahasiswa of mahasiswas ) {
+            //     console.log(mahasiswa);
+            // }
+
+        // // FOR..OF STRING
+            // const namas = 'Fuad';
+            // for( const nama of namas ) {
+            //     console.log(nama);
+            // }
+
+        // // Ngambil i dari array pake forEach bisa
+            // const mahasiswas = ['Afad', 'Budi', 'Canthika', 'Dendi'];
+            // mahasiswas.forEach((mahasiswa, i) => {
+            //     console.log(`${mahasiswa} adalah mahasiswa ke-${i + 1}`)
+            // });
+        
+        // // Ngambil i dari array pake for..of harus diakalin pake method .entries & destructuring
+            // const mahasiswas = ['Afad', 'Budi', 'Canthika', 'Dendi'];
+            // for (const [i, mahasiswa] of mahasiswas.entries()) {
+            //     // [ 0, 'Afad'] = [i, mahasiswa] // internal destructuring
+            //     console.log(i, mahasiswa);
+            //     console.log(`${mahasiswa} adalah mahasiswa ke-${i + 1}`);
+            // }
+
+        // // FOR..OF buat Arguments (kalo pake .reduce ga bisa krn itu method buat array, foreach juga gabisa krn arguments itu bukan array)
+            // function jumlahkanAngka() {
+            //     // console.log(arguments);
+            //     let jumlah = 0;
+            //     for (a of arguments) {
+            //         jumlah += a;
+            //     }
+            //     return jumlah;
+            // }
+
+            // console.log(jumlahkanAngka(1, 2, 3, 4, 5)); // 15
+        
+    // FOR..IN -> loop iteration of ENUMERABLES 
+        // const mhs = {
+        //     nama: 'Fuad',
+        //     umur: 20,
+        //     email: 'azaimfuad@gmail.com'
+        // }
+
+        // for (m in mhs) { 
+        //     console.log(m); // looping property dr object
+        // }
+
+        // console.log(`__
+        // `)
+
+        // for (m in mhs) {
+        //     console.log(mhs[m]); // looping value dr property dr object
+        // }
+    
+// [8] SPREAD OPERATOR & REST PARAMETER ________________________________________________________
+
+    // // Spread Operator
+        
+        // // Menggabungkan 2 Array/lebih
+            // const mahasiswas = ['Afad', 'Budi', 'Canthika', 'Dendi'];
+            // const dosen = ['Arief', 'Rudi', 'Anang'];
+
+            // // const orang = [mahasiswas, dosen]; // kalo gini ga bakal bisa, bakal ada array dalam array
+            // // const orang = mahasiswas.concat(dosen); // cara gabungin 2, tp ini ga sefleksibel spread karena ga bisa nambahin array di tengah2nya
+            // const orang = [...mahasiswas, 'Aji', ...dosen]; // cara gabungin 1
+
+            // console.log(orang);
+
+        // // Mengcopy Array
+            // const mahasiswas = ['Afad', 'Budi', 'Canthika', 'Dendi'];
+            // const mhs_copied = [...mahasiswas]; // ga pake const meskipun nanti diubah index 0 nya karena yg konstan itu array nya, bukan isi di dalam array
+            // mhs_copied[0] = "Siraj"; // ganti Afad dengan Siraj
+
+            // console.log(`mahasiswas: ${mahasiswas}`);
+            // console.log(`mhs_copied: ${mhs_copied}`);
+        
+        // // Spread Operator for DOM case: SKIPPED
+
+    // // Rest Parameter
+
+        // // Catch arguments as array
+            // function myFunc(a, b, ...args) {
+            //     const sisa = args;
+            //     console.log(`a = ${a}, b = ${b}, args = ${args}`);
+            //     console.log(sisa);
+
+            //     // gamau pake rest parameter, tapi pake array, ada 2 cara:
+            //     // return Array.from(arguments);
+            //     // return [...arguments];
+            // }
+
+            // myFunc(1, 2, 3, 4, 5, 6, 7, 8);
+            
+            // function jumlahkan(...angkas) {
+            //     // let total = 0;
+            //     // for (angka of angkas) {
+            //     //     total += angka;
+            //     // }
+            //     // return total;
+
+            //     // // one line alternative
+            //     return angkas.reduce((prev, curr) => prev + curr);
+            // }
+
+            // let x = jumlahkan(1, 2, 3, 4, 5);
+            // console.log(x); // 15
+
+        // // Array Destructuring
+            // const kelompok1 = ['Afad', 'Budi', 'Canthika', 'Dendi', 'Eko', 'Fauzi'];
+            // const [ketua, wakil, ...anggota] = kelompok1;
+            // console.log(ketua);
+            // console.log(wakil);
+            // console.log(anggota);
+
+        // // Object Destructuring
+            // const team = {
+            //     pm: "Afad",
+            //     frontEnd1: 'Budi',
+            //     frontEnd2: 'Canthika',
+            //     backEnd: 'Dendi',
+            //     ux: 'Eko',
+            //     devOps: 'Fauzi' 
+            // }
+
+            // const {pm, ...myTeam} = team;
+            // console.log(`The pm is ${pm}`);
+            // console.log(myTeam);
+        
+        // // Filtering
+            // function filterBy(type, ...values) {
+            //     return values.filter((v) => typeof v === type); // kalo sesuai return
+            // }
+
+            // console.log(filterBy('number', 1, 2, 'Afad', false, 10, true, 'Eko'));
+            // console.log(filterBy('string', 1, 2, 'Afad', false, 10, true, 'Eko'));
+            
+        // // Fuad Coba2 Ngetes Tipe data dari sebuah array
+            // function type(a) {
+
+            //     // // pake forEach
+            //         // const b = [];
+            //         // a.forEach(element => {
+            //         //     b.push(typeof element);
+            //         // });
+            //         // return b;
+
+            //     // // pake for..of
+            //         const b = [];
+            //         for (element of a) {
+            //             b.push(typeof element);
+            //         }
+            //         return b;
+            // }
+
+            // const a = ['number', 1, 2, 'Afad', false, 10, true, 'Eko'];
+            // console.log(type(a));
+
+
+// [9] ASYNCHRONOUS JS ________________________________________________________
+    
+        // // Copy these to https://pythontutor.com/render.html#mode=edit  or http://latentflip.com/loupe/
+            // function kalikan(a, b) {
+            //     return a * b;
+            // }
+
+            // function hitungLuas(sisi) {
+            //     return kalikan(sisi, sisi);
+            // }
+
+            // function cetakLuasKotak(sisi) {
+            //     const luas = hitungLuas(sisi);
+            //     console.log(luas);
+            // }
+
+            // cetakLuasKotak(5);
+
+        // // Async Callback, gara2 ada Event Loop
+        // // Coba pake setTImeout, urutan console.log: satu, tiga, Muncul...
+            // console.log('satu');
+            // setTimeout(() => {
+            //     console.log('MunculSetelah3detik');
+            // }, 3000); // delay 3000 milisecond or 3s
+            // console.log('tiga');
+            // // sebenernya setTImeout ga ilang dari STACK, tapi dia dipindahin ke WEB API yg menangani fungsi2 async callback, 
+            // // Tapi WEB API ga bisa langsung menjalankan kembali fungsinya ke dalam Stack, fungsi async callback harus disimpan ke CALLBACK QUEUE: onClick, onLoad, delay, ...
+            // // Setelah itu, ada EVENT LOOP yg tugasnya ngecek di Callback Queue ada antrian ga? kalo ada, ambil callback, simpen ke Stack, jalanin function kyk biasa. 
+            // // Tapi kapan bisa masuk ke stack? kalau stack udah KOSONG, si EVENT LOOP baru bisa masukin callback tadi ke stack
+        
+// [10.1] CALLBACK ________________________________________________________
+        
+        
+        // // Sync function
+            // const a = [0, 1, 2, 3, 4, 5, 6, 7];
+            
+            // const aturan = ((x) => x > 3 ); // kalo sebaris ga perlu diwrap { }
+
+            // // function aturan (x) {
+            // //     return x > 3;
+            // // }
+
+            // function filter (array, f_aturan) {
+            //     return array.filter(f_aturan);
+            // }
+
+            // let callback = filter(a, aturan); 
+            // console.log(callback);
+        
+        
+        // // Async function (pretending)
+            // // ada array yg di dalemnya ada object kyk JSON (array of objects)
+            // const mhs = [
+            //     {
+            //         "nama": "Fuad Azaim Siraj",
+            //         "nrp": "02411840000133",
+            //         "email": "azaimfuad@gmail.com",
+            //         "jurusan": "Teknik Industri",
+            //         "idDosenWali": 1
+            //     },
+            //     {
+            //         "nama": "Budi Irawan Sanjaya",
+            //         "nrp": "02411840000182",
+            //         "email": "budi@gmail.com",
+            //         "jurusan": "Teknik Informatika",
+            //         "idDosenWali": 2
+            //     },
+            //     {
+            //         "nama": "Chikita Duanzisita",
+            //         "nrp": "02411840000111",
+            //         "email": "chikita@gmail.com",
+            //         "jurusan": "Arsitektur",
+            //         "idDosenWali": 2
+            //     }
+            // ];
+
+            // console.log("mulai");
+            // // HOF biasanya paramternya udah callback (function) dan biasanya ngambil data pake API ini butuh waktu dan lama
+            // mhs.forEach((m) => {
+            //     for(let i = 0; i <1700000000; i++) {
+            //         let a; // dummy execution
+            //     }
+            //     console.log(m.nama)
+            // });
+            // console.log("selesai");
+
+        
+        // // Async Callback function (using Vanilla JS)
+            // function getDataMahasiswa(url, success, error) {
+            //     let xhr = new XMLHttpRequest();
+
+            //     xhr.onreadystatechange = function () {
+            //         if (xhr.readyState === 4) {
+            //             success(xhr.response);
+            //         } else {
+            //             error();
+            //         }
+            //     }
+
+            //     xhr.open('get', url);
+            //     xhr.send();
+            // }
+
+
+            // console.log('mulai');
+
+            // // pake anonymuous function buat callback di parameter
+            // getDataMahasiswa('data/mahasiswa.json', (results) => {
+            //     const mhs_json = JSON.parse(results);
+            //     mhs_json.forEach(element => console.log(element.nama));
+            // }, () => {
+            //     // dummy error
+            // });
+
+            // console.log('selesai');
+            // console.log('selesai2');
+            // // coba open with live server indexbasic.html, cek console!
+        
+        
+        // // Async Callback Function with JQuery 
+            // // // Copy script jQuery 3.x minfied ke .html biar bisa manggil method .ajax
+            // console.log("mulai");
+            // $.ajax({
+            //     url: 'data/mahasiswa.json',
+            //     success: (mhs_json) => {
+            //         // ga perlu parsing kalo di JQuery, isinya lgsg objek
+            //         mhs_json.forEach(element => console.log(element.nama));
+            //     },
+            //     error: () => {
+
+            //     }
+            // })
+            // console.log("selesai");
+            // // // coba open with live server indexbasic.html, cek console!
+
+// [11] PROMISE ________________________________________________________
 
 
 
