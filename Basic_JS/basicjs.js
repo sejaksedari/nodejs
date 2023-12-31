@@ -590,7 +590,67 @@ Max = 64bit, 2^64
         - Async callback (using JSON, jQuery (.ajax) & Live Server)
     - Next bakal belajar Async callback using Vanilla dan .fetch (metode baru) tanpa pake library jQuery
 
+// [10.2] CALLBACK LATIHAN ________________________________________________________
+    - Ati-ati kena Callback Hell kalo kebanyakan callback, ciri2 kodenya semakin menjorok ke-dalam
+    - Ini terjadi karena kita pake external 3rd party: jQuery. kalo kita manggil dr luar maka ada resource yg digunakan, ga efisien.
+    - Makanya next belajar pake FETCH
+
 // [11] PROMISE ________________________________________________________
+
+        i=tt1285016
+        url: 'http://www.omdbapi.com/?apikey=d56a422a&s=avengers'
+        - List:
+            - Ajax versi jQuery
+            - Ajax versi VanillaJS
+            - Fetch: Sama kyk jquery or vanilla hasilnya, cuman kelemahannya fetch return promise doang
+            - eg promise 1 - langsung keluar (simuasi doang)
+            - eg promise 2 - setelah setTimeout delay
+            - Promise.all -> ngambil 2 api sekaligus bersamaan
+        - Apa itu Promise?
+            - Def: Promise is an object representing successfullness or failure of an async event in the future
+                - Object yg merepresentasikan keberhasilan or kegagalan sebuah event yg asynchronous in the future
+                - janji (terpenuhi / ingkar)
+                - states (fulfilled / rejected / pending)
+                - callback (resolve / reject / finally)
+                - aksi (then / catch)
+        - QNA: ini kok ga kecetak ya Not Okay nya? meskipun dah ganti ditepati = false?
+        
+// [12] FETCH ________________________________________________________
+
+    - Intinya, fetch itu:
+        - Sebuah method pada API JS untuk mengambil RESOURCES dari jaringan, dan mengembalikan PROMISE yang selesai (FULFILLED) ketika ada RESPONSE yang tersedia 
+        - Syntax: fetch(resources, init) // kita ga pake init di case Movie Search, jadi pake default get
+            - resources bisa url bisa request object
+            - init = konfigurasi tambahan pada sebuah request berbentuk objek
+                - eg. method, headers, body, mode, cache, referrer, referrerPolicy, integrity, keepalive, signal, dll.
+            - response (hasil dari fetch, returnya PROMISE)
+                - di dalemnya ada property
+                    - eg. headers, ok, redirected, status, statusText, type, url, body
+                - ada method
+                    - eg. clone(), error(), redirect(), blob(), formData(), json(), text()
+
+// [13-14] FETCH REFACTOR (ASYNC AWAIT) ________________________________________________________
+
+    - Intinya, biar fetching lebih rapi, sederhana, terbaca
+    - Def_1
+        - Async Function = "Sebuah function yg bekerja secara async (melalui event loop), yang menghasilkan (implisit) promise sebagai return value-nya, tapi cara penulisan code-nya menggunakan penulisan yg sync (standar)"
+    - Def_2
+        - "Sebuah async function dapat memiliki keyword await di dalamnya untuk memberhentikan sementara eksekusi fungsinya sambil menunggu promise-nya selesai."
+
+// [15] ERROR HANDLING ________________________________________________________
+
+    - Error Handling: Promise
+        .then() => ngejalanin apa yg ada di dalam resolve
+        .catch() => ngejalanin apa yg ada di dalam reject
+    - Error Handling: Async Await
+        try => run resolve
+        catch() => run reject
+    - Error Handling: fetch() ? kalo resolve bisa, kalo gagal gimana? 
+        - coba cek folder Movie Search
+            - Menangani search dengan input kosong, input salah, dst.
+        - fetch cuma bisa handle error mengenai url aja, sisanya harus ditanganin manual di dalam fungsi di mana fetch berada
+
+
 
 
 
@@ -2434,7 +2494,7 @@ Max = 64bit, 2^64
             //     console.log(m.nama)
             // });
             // console.log("selesai");
-
+        
         
         // // Async Callback function (using Vanilla JS)
             // function getDataMahasiswa(url, success, error) {
@@ -2485,6 +2545,192 @@ Max = 64bit, 2^64
             // // // coba open with live server indexbasic.html, cek console!
 
 // [11] PROMISE ________________________________________________________
+
+        // Ajax versi jQuery
+            // console.log("mulai");
+            // $.ajax({
+            //     url: 'http://www.omdbapi.com/?apikey=d56a422a&s=avengers',
+            //     success: movies => console.log(movies)
+            // });
+            // console.log("selesai");
+
+        // Ajax versi VanillaJS, ga pake library external, tp yg ditulis banyak
+            // const xhr = new XMLHttpRequest();
+
+            // xhr.onreadystatechange = function () {
+            //     if(xhr.status === 200) {
+            //         if (xhr.readyState === 4) {
+            //             console.log(JSON.parse(xhr.response));
+            //         }
+            //     } else {
+            //         console.log(xhr.responseText);
+            //     }
+            // }
+
+            // xhr.open('get', 'http://www.omdbapi.com/?apikey=d56a422a&s=avengers');
+            // xhr.send("");
+        
+        // Pake Fetch: sama kyk jquery or vanilla hasilnya, cuman kelemahannya fetch return promise doang
+            // fetch('http://www.omdbapi.com/?apikey=d56a422a&s=avengers')
+            //     .then((response) => response.json()) // return promise
+            //     .then((response) => console.log(response)); // print the promise
+
+        // eg Promise 1 - Hasil langsung keluar
+            // let ditepati = true; // coba ganti false, masuk ke else, yg ngambil method .catch
+            // const janji1 = new Promise((resolve, reject) => {
+            //     if( ditepati ) {
+            //         resolve('Janji telah ditepati');
+            //     } else {
+            //         reject('Ingkar Janji');
+            //     }
+            // });
+
+            // janji1
+            //     .then(response => console.log('Oke! : ' + response))
+            //     .catch(response => console.log('Not Okay : ' + response));
+        
+        // eg Promise 2 - Ada loading
+            // let ditepati = true;
+            // const janji2 = new Promise((resolve, reject) => {
+            //     if( ditepati ) {
+            //         setTimeout(() => {
+            //             resolve('Ditepati setelah beberapa waktu');
+            //         }, 2000);
+            //     } else {
+            //         setTimeout(() => {
+            //             resolve('Tidak ditepati setelah beberapa waktu');
+            //         }, 2000);
+            //     }
+            // });
+
+            // console.log('mulai');
+            // janji2
+            //     .finally(() => console.log('Selesai Menunggu'))
+            //     .then(response => console.log('Oke! : ' + response))
+            //     .catch(response => console.log('Not Okay : ' + response)); // ini kok ga kecetak ya Not Okay nya? meskipun dah ganti ditepati = false
+            // console.log('selesai');
+
+        // Method All di dalam Promise -> Promise.all untuk menjalankan ketika punya banyak promise dan mau dijalankan sekaligus
+        /*
+            // api1 data film
+            const film = new Promise( (resolve) => {
+                setTimeout(() => {
+                    resolve([{
+                        judul: 'Avengers',
+                        sutradara: 'Fuad',
+                        pemeran: 'Imron, Aji'
+                    },
+                    {
+                        judul: 'Avatar',
+                        sutradara: 'Siraj',
+                        pemeran: 'Ghozi, Didik'
+                    }])
+                }, 1000);
+            });
+
+            // api2 data cuaca
+            const cuaca = new Promise( (resolve) => {
+                setTimeout(() => {
+                    resolve([{
+                        kota: 'Bandung',
+                        temp: 26,
+                        kondisi: 'Cerah Berawan'
+                    },{
+                        kota: 'Surabaya',
+                        temp: 34,
+                        kondisi: 'Terik Sekali'
+                    }]);
+                }, 500);
+            });
+
+            // jalanin satu2
+            // film.then( response => console.log(response));
+            // cuaca.then( response => console.log(response));
+
+            // jalanin semua
+            Promise.all([film, cuaca])
+                // array di dalam array
+                // .then(response => console.log(response));
+
+                // array terpisah
+                .then(response => {
+                    const [film, cuaca] = response;
+                    console.log(film);
+                    console.log(cuaca);
+                    
+                    film.forEach(element => console.log(element.judul));
+                });
+        */
+
+// [12] FETCH ________________________________________________________
+
+    // - Coba cek folder Movie Search
+
+
+// [13-14] FETCH REFACTOR (ASYNC AWAIT) ________________________________________________________
+
+
+    // // EG 1
+    /*
+        // // fake delay
+        const coba = new Promise((resolve) => {
+            setTimeout(() => {
+                resolve('Selesai')
+            }, 2000);
+        });
+
+        // // Sync Call
+        console.log(coba); // ini bener2 sycn
+
+        // // Call after setTimeout finished
+        coba
+            .then((c) => console.log(c));
+    */
+
+
+    // // EG 2
+        /*
+            function cobaPromise() {
+                return new Promise((resolve, reject) => {
+                    console.log('wait 2sec')
+
+                    const waktu = 5000;
+
+                    if (waktu < 5000) {
+                        setTimeout(() => {
+                            resolve('Selesai')
+                        }, waktu);
+                    } else {
+                        reject('kelamaan nih');
+                    }
+                });
+            }
+
+            // // pake .then .catch
+            // const coba = cobaPromise();
+            // coba
+            //     .then((c) => console.log(c))
+            //     .catch((c) => console.log(c));
+
+
+            // pake async await, harus pake .try untuk resolve | .catch untuk reject dan catch harus ada parameter
+            async function cobaAsync() {
+                try {
+                    const coba = await cobaPromise();
+                    console.log(coba);
+                } catch (err) {
+                    console.error(err); //.error biar merah di console
+                }
+            }
+
+            cobaAsync();
+        */
+
+
+
+// [15] ERROR HANDLING ________________________________________________________
+
+    // - coba cek folder Movie Search
 
 
 
